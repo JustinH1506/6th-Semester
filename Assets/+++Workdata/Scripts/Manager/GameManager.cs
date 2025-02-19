@@ -1,5 +1,7 @@
 using System;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,7 +14,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public GameStates gameStates;
-
+    
     private void Awake()
     {
         if (Instance == null)
@@ -23,5 +25,14 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this);
         }
+        
+        #if UNITY_EDITOR
+
+        if (EditorPrefs.GetString("activeScene") != null)
+        {
+            SceneManager.LoadScene(EditorPrefs.GetString("activeScene"), LoadSceneMode.Additive);
+        }
+        
+        #endif
     }
 }
