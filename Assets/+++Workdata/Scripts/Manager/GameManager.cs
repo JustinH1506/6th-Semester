@@ -28,9 +28,11 @@ public class GameManager : MonoBehaviour
         
         #if UNITY_EDITOR
 
-        if (EditorPrefs.GetString("activeScene") != null)
+        string activeSceneName = EditorPrefs.GetString("activeScene");
+        
+        if (activeSceneName != null)
         {
-            SceneManager.LoadScene(EditorPrefs.GetString("activeScene"), LoadSceneMode.Additive);
+            SceneManager.LoadScene(activeSceneName, LoadSceneMode.Additive);
         }
         
         #endif
