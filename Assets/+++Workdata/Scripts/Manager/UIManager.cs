@@ -4,12 +4,14 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
 	public static UIManager Instance;
+	
+	public Image loadingIcon;
 
-	public GameObject loadingScreen;
-
-	public Image loadingSlider;
-
-	public GameObject mainMenuScreen;
+	[Header("Canvas Groups")]
+	public CanvasGroup loadingScreen;
+	public CanvasGroup mainMenuScreen;
+	public CanvasGroup optionsScreen;
+	public CanvasGroup inGameUi;
 
 	private GameObject player;
 
@@ -25,9 +27,17 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
-	public void OpenMenu(GameObject menu, CursorLockMode lockMode, float timeScale)
+	public void StartGame()
 	{
-		menu.SetActive(true);
+		SceneLoader.Instance.sceneStates = SceneLoader.SceneStates.Level01;
+		StartCoroutine(SceneLoader.Instance.LoadScene((int)SceneLoader.Instance.sceneStates, 1));
+		CloseMenu(mainMenuScreen, CursorLockMode.Locked, 1);
+		OpenMenu(inGameUi, CursorLockMode.Locked, 1f);
+	}
+
+	public void OpenMenu(CanvasGroup canvasGroup, CursorLockMode lockMode, float timeScale)
+	{
+		canvasGroup.ShowCanvasGroup();
 
 		player = GameObject.FindGameObjectWithTag("Player");
 
@@ -41,10 +51,9 @@ public class UIManager : MonoBehaviour
 		Time.timeScale = timeScale;
 	}
 
-	public void CloseMenu(GameObject menu, CursorLockMode lockMode, float timeScale)
+	public void CloseMenu(CanvasGroup canvasGroup, CursorLockMode lockMode, float timeScale)
 	{
-
-		menu.SetActive(false);
+		canvasGroup.HideCanvasGroup();
 
 		player = GameObject.FindGameObjectWithTag("Player");
 

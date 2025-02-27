@@ -6,11 +6,10 @@ using UnityEngine.SceneManagement;
 public class EditorInit
 {
     /// <summary>
-    /// Saves the last active scene and Loads the Manager Scene when starting Play Mode.
+    /// Always starts the game with the Manager scene.
     /// </summary>
     static EditorInit()
     {
-        EditorPrefs.SetString("activeScene" ,SceneManager.GetActiveScene().name);
         var pathOfFirstScene = EditorBuildSettings.scenes[0].path;
         var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(pathOfFirstScene);
         EditorSceneManager.playModeStartScene = sceneAsset;

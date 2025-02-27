@@ -5,4 +5,5 @@ using UnityEngine;
 public class Debug : ScriptableObject
 { 
 	public SceneAsset startScene;
+	public bool useEditorCode;
 }

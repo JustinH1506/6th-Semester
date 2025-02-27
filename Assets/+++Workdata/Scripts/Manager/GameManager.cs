@@ -1,5 +1,4 @@
 using System;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,9 +10,15 @@ public class GameManager : MonoBehaviour
         InGame
     }
     
+    [Header("Game Variables")]
+    
     public static GameManager Instance;
-
+    
     public GameStates gameStates;
+    [Space]
+    
+    [Header("Debug variables.")]
+    [SerializeField] public Debug _debug;
     
     private void Awake()
     {
@@ -28,11 +33,18 @@ public class GameManager : MonoBehaviour
         
         #if UNITY_EDITOR
 
-        string activeSceneName = EditorPrefs.GetString("activeScene");
-        
-        if (activeSceneName != null)
+        if (_debug.useEditorCode)
         {
-            SceneManager.LoadScene(activeSceneName, LoadSceneMode.Additive);
+            string activeSceneName = _debug.startScene.name;
+            
+            if (activeSceneName != String.Empty)
+            {
+                SceneManager.LoadScene(activeSceneName, LoadSceneMode.Additive);
+            }
+        }
+        else
+        {
+            UIManager.Instance.OpenMenu(UIManager.Instance.mainMenuScreen, CursorLockMode.None, 1f);
         }
         
         #endif

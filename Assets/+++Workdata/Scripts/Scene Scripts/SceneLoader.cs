@@ -9,9 +9,8 @@ public class SceneLoader : MonoBehaviour
 	public enum SceneStates
 	{
 		Manager = 0,
-		MainMenu = 1,
-		Level01 = 2,
-		Level02 = 3
+		Level01 = 1,
+		Level02 = 2
 	}
 
 	public SceneStates sceneStates;
@@ -47,6 +46,31 @@ public class SceneLoader : MonoBehaviour
 		
 		currentScene = (int)sceneStates; 
 	}
+	
+	public IEnumerator LoadScene(int newScene, int timeScale)
+	{
+		UIManager.Instance.OpenMenu(UIManager.Instance.loadingScreen, CursorLockMode.Locked, 1f);
+		
+		sceneStates = (SceneStates)newScene;
+		
+		AsyncOperation loadLevel = SceneManager.LoadSceneAsync(newScene, LoadSceneMode.Additive);
+
+		UIManager.Instance.loadingIcon.fillAmount = 0f;
+		
+		while (!loadLevel.isDone)
+		{
+			UIManager.Instance.loadingIcon.fillAmount = Mathf.Clamp01(loadLevel.progress / .9f);
+			yield return null;
+		}
+		
+		UIManager.Instance.CloseMenu(UIManager.Instance.loadingScreen, CursorLockMode.Locked, 1f);
+		
+		SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(newScene));
+
+		currentScene = newScene;
+
+		Time.timeScale = timeScale;
+	}
 
 	/// <summary>
 	/// Loads the given scene and unloads the old scene. 
@@ -57,7 +81,8 @@ public class SceneLoader : MonoBehaviour
 	/// <returns></returns>
 	public IEnumerator LoadScene(int oldScene, int firstNewScene, int timeScale)
 	{
-		UIManager.Instance.loadingScreen.SetActive(true);
+		UIManager.Instance.OpenMenu(UIManager.Instance.loadingScreen, CursorLockMode.Locked, 1f);
+		
 		var unloadedScene = SceneManager.GetSceneByBuildIndex(oldScene);
 		
 		if (unloadedScene.isLoaded)
@@ -69,42 +94,17 @@ public class SceneLoader : MonoBehaviour
 		
 		AsyncOperation loadLevel = SceneManager.LoadSceneAsync(firstNewScene, LoadSceneMode.Additive);
 		
+		UIManager.Instance.loadingIcon.fillAmount = 0f;
+		
 		while (!loadLevel.isDone)
 		{
-			UIManager.Instance.loadingSlider.fillAmount = Mathf.Clamp01(loadLevel.progress / .9f);
+			UIManager.Instance.loadingIcon.fillAmount = Mathf.Clamp01(loadLevel.progress / .9f);
 			yield return null;
 		}
 		
-		UIManager.Instance.loadingScreen.SetActive(false);
+		UIManager.Instance.CloseMenu(UIManager.Instance.loadingScreen, CursorLockMode.Locked, 1f);
 		
         SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(firstNewScene));
-
-		currentScene = firstNewScene;
-
-		Time.timeScale = timeScale;
-	}
-    
-	/// <summary>
-	/// Unloads the given scene and loads 2 new given scenes.
-	/// </summary>
-	/// <param name="oldScene"></param>
-	/// <param name="firstNewScene"></param>
-	/// <param name="secondNewScene"></param>
-	/// <param name="timeScale"></param>
-	/// <returns></returns>
-	public IEnumerator LoadScene(int oldScene, int firstNewScene , int secondNewScene, int timeScale)
-	{
-		var unloadedScene = SceneManager.GetSceneByBuildIndex(oldScene);
-		
-		if (unloadedScene.isLoaded)
-		{
-			yield return SceneManager.UnloadSceneAsync(unloadedScene);
-
-			sceneStates = (SceneStates)firstNewScene;
-		}
-
-		SceneManager.LoadScene(firstNewScene, LoadSceneMode.Additive);
-		SceneManager.LoadScene(secondNewScene, LoadSceneMode.Additive);
 
 		currentScene = firstNewScene;
 
