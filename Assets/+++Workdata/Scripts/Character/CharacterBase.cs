@@ -24,14 +24,14 @@ public class CharacterBase : MonoBehaviour
 	
 		baseCurrentHealth = newHealth;
 	
-		if (baseCurrentHealth <= 0)
-		{
-			gameObject.SetActive(false);
-		}
-	
 		if (OnHealthChanged != null)
 		{
 			OnHealthChanged(baseCurrentHealth);
+		}
+		
+		if (baseCurrentHealth <= 0)
+		{
+			gameObject.SetActive(false);
 		}
 	}
 	
@@ -51,4 +51,5 @@ public class CharacterBase : MonoBehaviour
 		if (getInstantCallback)
 			callback(baseCurrentHealth);
 	}
+	
 }

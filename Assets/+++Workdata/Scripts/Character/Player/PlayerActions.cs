@@ -6,8 +6,13 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerActions : CharacterBase
 {
-	[Header("Movement Variables")]
-	[SerializeField] private float moveSpeed = 0;
+	[Header("Movement Variables"), Tooltip("Max movement speed during walking.")] 
+	[SerializeField] private float maxMoveSpeed = 0;
+	[SerializeField] private float maxSprintMoveSpeed = 0;
+	private float moveSpeed = 0;
+	private bool isSprinting = false;
+	[Space]
+	
 	[SerializeField] private float jumpStrength = 0;
 	[SerializeField] private float jumpDetectorMaxLength = 0;
 	[SerializeField] private float rotationSpeed = 0f;
@@ -16,6 +21,7 @@ public class PlayerActions : CharacterBase
 	
 	[Header("Animations")] 
 	private Animator anim;
+	[Space]
 	
 	private Rigidbody rb;
 	private float inputX;
@@ -25,11 +31,30 @@ public class PlayerActions : CharacterBase
 	{
 		rb = GetComponent<Rigidbody>();
 		anim = GetComponent<Animator>();
+		
+		moveSpeed = maxMoveSpeed;
 	}
 
 	private void Start()
 	{
 		Cursor.lockState = CursorLockMode.Locked;
+	}
+
+	private void OnEnable()
+	{
+		OnRegisterCurrentHealth(HealthChanged, true);
+	}
+	private void OnDisable()
+	{
+		OnHealthChanged -= HealthChanged;
+	}
+
+	private void OnCollisionEnter(Collision other)
+	{
+		if (other.gameObject.CompareTag("Enemy"))
+		{
+			CurrentHealth--;
+		}
 	}
 
 	private void FixedUpdate()
@@ -72,6 +97,20 @@ public class PlayerActions : CharacterBase
 		}
 	}
 
+	public void Sprint(InputAction.CallbackContext context)
+	{
+		if (!isSprinting)
+		{
+			isSprinting = true;
+			moveSpeed = maxSprintMoveSpeed;
+		}
+		else
+		{
+			isSprinting = false;
+			moveSpeed = maxMoveSpeed;
+		}
+	}
+
 	private bool IsGrounded()
 	{
 		if (Physics.Raycast(transform.position, Vector3.down, jumpDetectorMaxLength, groundMask))
@@ -90,5 +129,11 @@ public class PlayerActions : CharacterBase
 	public void DisablePlayerActions()
 	{
 		
+	}
+	
+	private void HealthChanged(int newHealth)
+	{
+		UIManager.Instance.playerHealthUi.fillAmount = (float)newHealth / baseMaxHealth;
+		UnityEngine.Debug.Log((float)newHealth / baseMaxHealth);
 	}
 }

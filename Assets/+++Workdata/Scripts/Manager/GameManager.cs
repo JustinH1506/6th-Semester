@@ -40,6 +40,8 @@ public class GameManager : MonoBehaviour
             if (activeSceneName != String.Empty)
             {
                 SceneManager.LoadScene(activeSceneName, LoadSceneMode.Additive);
+                
+                UIManager.Instance.OpenMenu(UIManager.Instance.inGameUi, CursorLockMode.Locked, 1f);
             }
         }
         else

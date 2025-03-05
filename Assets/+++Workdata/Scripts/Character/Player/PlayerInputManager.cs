@@ -19,6 +19,9 @@ public class PlayerInputManager : MonoBehaviour
 		playerInput.Player.Movement.performed += _playerActions.Move;
 		playerInput.Player.Movement.canceled += _playerActions.Move;
 
+		playerInput.Player.Sprint.performed += _playerActions.Sprint;
+		playerInput.Player.Sprint.canceled += _playerActions.Sprint;
+
 		playerInput.Player.Jump.performed += _playerActions.Jump;
 		playerInput.Player.Jump.canceled += _playerActions.Jump;
 
@@ -32,6 +35,9 @@ public class PlayerInputManager : MonoBehaviour
 		
 		playerInput.Player.Movement.performed -= _playerActions.Move;
 		playerInput.Player.Movement.canceled -= _playerActions.Move;
+		
+		playerInput.Player.Sprint.performed -= _playerActions.Sprint;
+		playerInput.Player.Sprint.canceled -= _playerActions.Sprint;
 		
 		playerInput.Player.Jump.performed -= _playerActions.Jump;
 		playerInput.Player.Jump.canceled -= _playerActions.Jump;

@@ -13,6 +13,16 @@ public class UIManager : MonoBehaviour
 	public CanvasGroup optionsScreen;
 	public CanvasGroup inGameUi;
 
+	[Header("Buttons")] 
+	
+	[Space] 
+	
+	[Header("Images")]
+
+	public Image playerHealthUi;
+	
+	[Space]
+
 	private GameObject player;
 
 	private void Awake()
