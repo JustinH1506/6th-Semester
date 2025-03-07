@@ -1,6 +1,5 @@
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEngine.SceneManagement;
 
 [InitializeOnLoad]
 public class EditorInit

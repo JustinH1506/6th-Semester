@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,10 +16,11 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     
     public GameStates gameStates;
+    [FormerlySerializedAs("_debug")]
     [Space]
     
     [Header("Debug variables.")]
-    [SerializeField] public Debug _debug;
+    [SerializeField] public DebugAsset debugAsset;
     
     private void Awake()
     {
@@ -33,9 +35,9 @@ public class GameManager : MonoBehaviour
         
         #if UNITY_EDITOR
 
-        if (_debug.useEditorCode)
+        if (debugAsset.useEditorCode)
         {
-            string activeSceneName = _debug.startScene.name;
+            string activeSceneName = debugAsset.startScene.name;
             
             if (activeSceneName != String.Empty)
             {

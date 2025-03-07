@@ -134,6 +134,6 @@ public class PlayerActions : CharacterBase
 	private void HealthChanged(int newHealth)
 	{
 		UIManager.Instance.playerHealthUi.fillAmount = (float)newHealth / baseMaxHealth;
-		UnityEngine.Debug.Log((float)newHealth / baseMaxHealth);
+		Debug.Log((float)newHealth / baseMaxHealth);
 	}
 }
