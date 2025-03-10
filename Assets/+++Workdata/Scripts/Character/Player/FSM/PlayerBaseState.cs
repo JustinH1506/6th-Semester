@@ -2,8 +2,8 @@ using UnityEngine;
 
 public abstract class PlayerBaseState
 {
-    private PlayerStateMachine ctx;
-    PlayerStateFactory factory;
+    protected PlayerStateMachine ctx;
+    protected PlayerStateFactory factory;
     
     protected PlayerBaseState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
     {

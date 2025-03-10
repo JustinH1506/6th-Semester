@@ -7,11 +7,25 @@ public class PlayerIdleState : PlayerBaseState
 	
 	public override void EnterState()
 	{
-		Debug.Log("Entering Idle State");
+		
 	}
 
-	public override void UpdateState(){}
+	public override void UpdateState()
+	{
+		CheckSwitchStates();
+	}
 	public override void ExitState(){}
-	public override void CheckSwitchStates(){}
+
+	public override void CheckSwitchStates()
+	{
+		if (ctx.IsSprinting && ctx.IsMoving)
+		{
+			SwitchStates(factory.Run());
+		}
+		else if (!ctx.IsSprinting && ctx.IsMoving)
+		{
+			SwitchStates(factory.Walk());
+		}
+	}
 	public override void InitializeSubStates(){}
 }
