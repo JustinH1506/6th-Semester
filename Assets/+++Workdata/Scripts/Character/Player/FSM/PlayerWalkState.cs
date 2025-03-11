@@ -14,11 +14,19 @@ public class PlayerWalkState : PlayerBaseState
 		ctx.HandleMovement();
 		CheckSwitchStates();
 	}
-	public override void ExitState(){}
+
+	public override void ExitState()
+	{
+		
+	}
 
 	public override void CheckSwitchStates()
 	{
-		if (!ctx.IsMoving && !ctx.IsSprinting)
+		if (ctx.IsAttacking)
+		{
+			SwitchStates(factory.Attack());
+		}
+		else if (!ctx.IsMoving && !ctx.IsSprinting)
 		{
 			SwitchStates(factory.Idle());
 		}

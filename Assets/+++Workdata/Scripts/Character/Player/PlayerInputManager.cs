@@ -3,9 +3,14 @@ using UnityEngine;
 
 public class PlayerInputManager : MonoBehaviour
 {
+	#region Variables
+
 	private PlayerInput playerInput;
 	private PlayerStateMachine playerStateMachine;
+	
+	#endregion
 
+	#region Methods
 	private void Awake()
 	{
 		playerInput = new PlayerInput();
@@ -39,4 +44,5 @@ public class PlayerInputManager : MonoBehaviour
 		playerInput.Player.Attack.performed -= playerStateMachine.Attack;
 
 	}
+	#endregion
 }

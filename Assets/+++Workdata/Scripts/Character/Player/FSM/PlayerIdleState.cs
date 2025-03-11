@@ -18,7 +18,11 @@ public class PlayerIdleState : PlayerBaseState
 
 	public override void CheckSwitchStates()
 	{
-		if (ctx.IsSprinting && ctx.IsMoving)
+		if (ctx.IsAttacking)
+		{
+			SwitchStates(factory.Attack());
+		}
+		else if (ctx.IsSprinting && ctx.IsMoving)
 		{
 			SwitchStates(factory.Run());
 		}

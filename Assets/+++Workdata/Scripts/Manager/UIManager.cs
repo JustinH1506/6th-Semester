@@ -53,7 +53,7 @@ public class UIManager : MonoBehaviour
 
 		if (player != null)
 		{
-			player.GetComponent<PlayerActions>().DisablePlayerActions();
+			//player.GetComponent<PlayerActions>().DisablePlayerActions();
 		}
 
 		Cursor.lockState = lockMode;
@@ -69,7 +69,7 @@ public class UIManager : MonoBehaviour
 
 		if (player != null)
 		{
-			player.GetComponent<PlayerActions>().EnablePlayerActions();
+			//player.GetComponent<PlayerActions>().EnablePlayerActions();
 		}
 
 		Cursor.lockState = lockMode;

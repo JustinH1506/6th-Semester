@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -21,30 +20,56 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] private float rotationSpeed = 0f;
     private float moveSpeed = 0;
     private bool isSprinting = false;
+    
+    [Space]
+    #endregion
 
+    #region Attack Variables
 
+    private bool isAttacking = false;
+    private int attackAmount = 0;
+
+    #endregion
+	
+    #region Animations
+    [Header("Animations")]
+    private Animator anim;
+    
+    #endregion
+    
     #region Getters and Setters
+
+    #region Movement
 
     public float MaxMoveSpeed {get { return maxMoveSpeed; } set { maxMoveSpeed = value; } }
     public float MaxSprintMoveSpeed {get { return maxSprintMoveSpeed; } set { maxSprintMoveSpeed = value; } }
     public float MoveSpeed {get { return moveSpeed; } set { moveSpeed = value; } }
     public bool IsSprinting {get { return isSprinting; } }
     public bool IsMoving {get { return isMoving; } }
-
+    
     #endregion
+
+    #region MyRegion
+
+    public int AttackAmount {get { return attackAmount; } set { attackAmount = value; } }
+    public bool IsAttacking {get { return isAttacking; }  set { isAttacking = value; } }
+    
+    #endregion
+    public Animator Anim { get { return anim; } }
     [Space]
     
     #endregion
-	
-    [Header("Animations")] 
-    private Animator anim;
-    [Space]
-	
+    
+    #region Stuff
+    
     private Rigidbody rb;
     private float inputX;
     private float inputZ;
     private bool isMoving;
-
+    
+	#endregion
+	
+	#region Methods
     private void Awake()
     {
 	    states = new PlayerStateFactory(this);
@@ -102,6 +127,9 @@ public class PlayerStateMachine : MonoBehaviour
     public void Attack(InputAction.CallbackContext context)
     {
 	    anim.SetTrigger("Attack");
+	    isAttacking = true;
+	    attackAmount++;
+	    anim.SetInteger("CurrentAttack", attackAmount);
     }
     
     public void Sprint(InputAction.CallbackContext context)
@@ -117,4 +145,6 @@ public class PlayerStateMachine : MonoBehaviour
 		    moveSpeed = maxMoveSpeed;
 	    }
     }
+    
+    #endregion
 }
