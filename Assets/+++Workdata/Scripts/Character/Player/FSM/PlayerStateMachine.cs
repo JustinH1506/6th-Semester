@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerStateMachine : MonoBehaviour
+public class PlayerStateMachine : CharacterBase
 {
     #region States
     
@@ -14,7 +14,7 @@ public class PlayerStateMachine : MonoBehaviour
     
     #region Movement Variabels
     
-    [Header("Movement Variables"), Tooltip("Max movement speed during walking.")] 
+    [Header("Movement Variables"), Tooltip("Max movement speed during walking.")]
     [SerializeField] private float maxMoveSpeed = 0;
     [SerializeField] private float maxSprintMoveSpeed = 0;
     [SerializeField] private float rotationSpeed = 0f;
@@ -40,22 +40,33 @@ public class PlayerStateMachine : MonoBehaviour
     #region Getters and Setters
 
     #region Movement
-
+    
     public float MaxMoveSpeed {get { return maxMoveSpeed; } set { maxMoveSpeed = value; } }
     public float MaxSprintMoveSpeed {get { return maxSprintMoveSpeed; } set { maxSprintMoveSpeed = value; } }
-    public float MoveSpeed {get { return moveSpeed; } set { moveSpeed = value; } }
+    public float MoveSpeed {get { return moveSpeed; } }
+    public float RotationSpeed {get { return rotationSpeed; } }
     public bool IsSprinting {get { return isSprinting; } }
     public bool IsMoving {get { return isMoving; } }
     
     #endregion
 
-    #region MyRegion
+    #region Attack
 
     public int AttackAmount {get { return attackAmount; } set { attackAmount = value; } }
     public bool IsAttacking {get { return isAttacking; }  set { isAttacking = value; } }
     
     #endregion
+    
+    #region Stuff
+    
+    public Rigidbody Rb { get { return rb; } }
+    
+    #endregion
     public Animator Anim { get { return anim; } }
+    
+    public float InputZ { get { return inputZ; } }
+    public float InputX { get { return inputX; } }
+    
     [Space]
     
     #endregion
@@ -82,6 +93,15 @@ public class PlayerStateMachine : MonoBehaviour
     private void Start()
     {
 	    moveSpeed = maxMoveSpeed;
+    }
+    
+    private void OnEnable()
+    {
+	    OnRegisterCurrentHealth(HealthChanged, true);
+    }
+    private void OnDisable()
+    {
+	    OnHealthChanged -= HealthChanged;
     }
 
     private void FixedUpdate()
@@ -144,6 +164,11 @@ public class PlayerStateMachine : MonoBehaviour
 		    isSprinting = false;
 		    moveSpeed = maxMoveSpeed;
 	    }
+    }
+    
+    private void HealthChanged(int newHealth)
+    {
+	    UIManager.Instance.playerHealthUi.fillAmount = (float)newHealth / baseMaxHealth;
     }
     
     #endregion

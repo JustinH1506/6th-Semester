@@ -21,6 +21,7 @@ public class PlayerRunState : PlayerBaseState
 		if (ctx.IsAttacking)
 		{
 			SwitchStates(factory.Attack());
+			ctx.Rb.linearVelocity = Vector3.zero;
 		}
 		else if (!ctx.IsSprinting && ctx.IsMoving)
 		{
