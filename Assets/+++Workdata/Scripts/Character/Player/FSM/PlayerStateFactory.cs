@@ -28,4 +28,9 @@ public class PlayerStateFactory
     {
         return new PlayerAttackState(context, this);
     }
+
+    public PlayerBaseState Block()
+    {
+        return new PlayerBlockState(context, this);
+    }
 }

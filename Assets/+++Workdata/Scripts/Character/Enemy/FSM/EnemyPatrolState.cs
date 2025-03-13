@@ -7,6 +7,7 @@ public class EnemyPatrolState : EnemyBaseState
     public override void EnterState()
     {
         ctx.NavMeshAgent.autoBraking = false;
+        ctx.NavMeshAgent.destination = ctx.CheckPoints[ctx.CurrentPoint].position;
     }
 
     public override void UpdateState()
@@ -15,7 +16,6 @@ public class EnemyPatrolState : EnemyBaseState
 
         if (ctx.NavMeshAgent.remainingDistance <= 0.1f)
         {
-            Debug.Log("Reached the end of the path");
             NextPoint();
         }
     }

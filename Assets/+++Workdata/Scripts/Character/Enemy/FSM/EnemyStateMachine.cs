@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -24,7 +25,7 @@ public class EnemyStateMachine : CharacterBase
 	
 	private int currentPoint = 0;
 	
-	private float distanceThreshold = 5f;
+	[SerializeField] private float distanceThreshold = 0f;
 	
 	#region Getters and Setters
 	
@@ -57,4 +58,5 @@ public class EnemyStateMachine : CharacterBase
 	{
 		currentState.UpdateState();
 	}
+	
 }

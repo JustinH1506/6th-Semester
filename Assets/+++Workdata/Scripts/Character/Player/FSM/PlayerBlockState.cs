@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public class PlayerAttackState : PlayerBaseState
+public class PlayerBlockState : PlayerBaseState
 {
-	public PlayerAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) :base(currentContext, playerStateFactory){}
+	public PlayerBlockState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) :base(currentContext, playerStateFactory){}
+
 	
 	public override void EnterState()
 	{
@@ -15,8 +16,7 @@ public class PlayerAttackState : PlayerBaseState
 
 	public override void ExitState()
 	{
-		ctx.AttackAmount = 0;
-		ctx.Anim.SetInteger("CurrentAttack", ctx.AttackAmount);
+		
 	}
 
 	public override void CheckSwitchStates()

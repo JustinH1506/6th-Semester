@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerSword : MonoBehaviour
 {
-	[SerializeField] private PlayerActions _playerActions;
+	[SerializeField] private PlayerStateMachine _playerActions;
 
 	private void OnTriggerEnter(Collider other)
 	{

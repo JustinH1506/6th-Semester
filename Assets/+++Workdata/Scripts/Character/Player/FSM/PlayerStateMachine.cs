@@ -62,6 +62,7 @@ public class PlayerStateMachine : CharacterBase
     public Rigidbody Rb { get { return rb; } }
     
     #endregion
+    
     public Animator Anim { get { return anim; } }
     
     public float InputZ { get { return inputZ; } }
@@ -116,10 +117,12 @@ public class PlayerStateMachine : CharacterBase
 	    if (inputX != 0 || inputZ != 0)
 	    {
 		    isMoving = true;
+		    Anim.SetBool("IsMoving", true);
 	    }
 	    else
 	    {
 		    isMoving = false;
+		    Anim.SetBool("IsMoving", false);
 	    }
     }
 
@@ -157,11 +160,13 @@ public class PlayerStateMachine : CharacterBase
 	    if (!isSprinting)
 	    {
 		    isSprinting = true;
+		    Anim.SetBool("IsSprinting", true);
 		    moveSpeed = maxSprintMoveSpeed;
 	    }
 	    else
 	    {
 		    isSprinting = false;
+		    Anim.SetBool("IsSprinting", false);
 		    moveSpeed = maxMoveSpeed;
 	    }
     }

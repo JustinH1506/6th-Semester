@@ -11,14 +11,23 @@ public class EnemyFollowState: EnemyBaseState
 		CheckSwitchStates();
 		
 		ctx.NavMeshAgent.SetDestination(ctx.PlayerTransform.position);
-
-		ctx.Anim.SetFloat("Distance", ctx.NavMeshAgent.remainingDistance);
 	}
 
 	public override void ExitState()
 	{
 		
 	}
-	public override void CheckSwitchStates(){}
+
+	public override void CheckSwitchStates()
+	{
+		if (Vector3.Distance(ctx.transform.position, ctx.PlayerTransform.position) < 3)
+		{
+			SwitchStates(factory.Attack());
+		}
+		else if(ctx.NavMeshAgent.remainingDistance > 5)
+		{
+			SwitchStates(factory.Patrol());
+		}
+	}
 
 }

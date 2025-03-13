@@ -6,17 +6,18 @@ public class PlayerWalkState : PlayerBaseState
 	
 	public override void EnterState( )
 	{
-		
+		ctx.Anim.SetBool( "IsMoving", true );
 	}
 
 	public override void UpdateState()
 	{
-		HandleMovement();
+		ctx.HandleMovement();
 		CheckSwitchStates();
 	}
 
 	public override void ExitState()
 	{
+		
 	}
 
 	public override void CheckSwitchStates()
@@ -26,35 +27,14 @@ public class PlayerWalkState : PlayerBaseState
 			SwitchStates(factory.Attack());
 			ctx.Rb.linearVelocity = Vector3.zero;
 		}
-		else if (!ctx.IsMoving && !ctx.IsSprinting)
+		else if (!ctx.IsMoving)
 		{
 			SwitchStates(factory.Idle());
 		}
-		else if (ctx.IsSprinting)
+		else if (ctx.IsMoving && ctx.IsSprinting)
 		{
 			SwitchStates(factory.Run());
 		}
 	}
 	public override void InitializeSubStates(){}
-	
-	public void HandleMovement()
-	{
-		Vector3 cameraForward = Camera.main.transform.forward;
-		Vector3 cameraRight = Camera.main.transform.right;
-
-		cameraForward.y = 0;
-		cameraRight.y = 0;
-		cameraForward = cameraForward.normalized;
-		cameraRight = cameraRight.normalized;
-		
-		Vector3 forwardRelativeMovementVector = ctx.InputZ * cameraForward;
-		Vector3 rightRelativeMovementVector = ctx.InputX * cameraRight;
-		
-		Vector3 cameraRelativeMovement = forwardRelativeMovementVector + rightRelativeMovementVector;
-		cameraRelativeMovement.Normalize();
-		
-		ctx.transform.forward = Vector3.Slerp(ctx.transform.forward, cameraRelativeMovement.normalized, Time.deltaTime * ctx.RotationSpeed);
-		
-		ctx.Rb.linearVelocity = new Vector3(cameraRelativeMovement.x * ctx.MoveSpeed, ctx.Rb.linearVelocity.y, cameraRelativeMovement.z * ctx.MoveSpeed);
-	}
 }
