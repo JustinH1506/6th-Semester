@@ -2,10 +2,12 @@ using UnityEngine;
 
 public class PlayerAttackState : PlayerBaseState
 {
+	
 	public PlayerAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) :base(currentContext, playerStateFactory){}
 	
 	public override void EnterState()
 	{
+		
 	}
 
 	public override void UpdateState()
@@ -25,8 +27,8 @@ public class PlayerAttackState : PlayerBaseState
 		{
 			return;
 		}
-		
 		ctx.IsAttacking = false;
+		ctx.Anim.SetBool("IsAttacking", false);
 		
 		if (ctx.IsMoving && ctx.IsSprinting)
 		{

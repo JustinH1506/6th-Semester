@@ -6,7 +6,7 @@ public class PlayerStateMachine : CharacterBase
     #region States
     
     private PlayerBaseState currentState;
-    private PlayerStateFactory states;
+    public PlayerStateFactory states;
     
     public PlayerBaseState CurrentState { get { return currentState; } set { currentState = value; } }
     
@@ -150,6 +150,7 @@ public class PlayerStateMachine : CharacterBase
     public void Attack(InputAction.CallbackContext context)
     {
 	    anim.SetTrigger("Attack");
+	    anim.SetBool("IsAttacking", true);
 	    isAttacking = true;
 	    attackAmount++;
 	    anim.SetInteger("CurrentAttack", attackAmount);

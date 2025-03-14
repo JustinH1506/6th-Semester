@@ -58,5 +58,9 @@ public class EnemyStateMachine : CharacterBase
 	{
 		currentState.UpdateState();
 	}
-	
+
+	public float DistanceBetweenPlayer()
+	{
+		return Vector3.Distance(transform.position, PlayerTransform.position);
+	}
 }

@@ -30,7 +30,14 @@ public class EnemyAttackState : EnemyBaseState
 			waitCounter -= Time.deltaTime;
 			return;
 		}
-		
-		SwitchStates(factory.Follow());
+
+		if (ctx.DistanceBetweenPlayer() > 3)
+		{
+			SwitchStates(factory.Follow());
+		}
+		else
+		{
+			SwitchStates(factory.Patrol());
+		}
 	}
 }
