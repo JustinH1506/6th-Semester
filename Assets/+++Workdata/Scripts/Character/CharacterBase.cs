@@ -31,7 +31,14 @@ public class CharacterBase : MonoBehaviour
 		
 		if (baseCurrentHealth <= 0)
 		{
-			gameObject.SetActive(false);
+			if (gameObject.CompareTag("Player"))
+			{
+				UIManager.Instance.OpenMenu(UIManager.Instance.gameOverScreen, CursorLockMode.None, 0f);
+			}
+			else
+			{
+				gameObject.SetActive(false);
+			}
 		}
 	}
 	

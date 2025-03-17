@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -32,8 +33,11 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this);
         }
-        
-        #if UNITY_EDITOR
+    }
+
+    private void Start()
+    {
+#if UNITY_EDITOR
 
         if (debugAsset.useEditorCode)
         {
@@ -51,6 +55,6 @@ public class GameManager : MonoBehaviour
             UIManager.Instance.OpenMenu(UIManager.Instance.mainMenuScreen, CursorLockMode.None, 1f);
         }
         
-        #endif
+#endif
     }
 }

@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
 	[Header("Canvas Groups")]
 	public CanvasGroup loadingScreen;
 	public CanvasGroup mainMenuScreen;
+	public CanvasGroup gameOverScreen;
 	public CanvasGroup optionsScreen;
 	public CanvasGroup inGameUi;
 
@@ -43,6 +44,12 @@ public class UIManager : MonoBehaviour
 		StartCoroutine(SceneLoader.Instance.LoadScene((int)SceneLoader.Instance.sceneStates, 1));
 		CloseMenu(mainMenuScreen, CursorLockMode.Locked, 1);
 		OpenMenu(inGameUi, CursorLockMode.Locked, 1f);
+	}
+
+	public void ReloadGame()
+	{
+		StartCoroutine(SceneLoader.Instance.LoadScene(SceneLoader.Instance.currentScene, (int)SceneLoader.Instance.sceneStates, 1)); 
+		CloseMenu(gameOverScreen, CursorLockMode.Locked, 1f);
 	}
 
 	public void OpenMenu(CanvasGroup canvasGroup, CursorLockMode lockMode, float timeScale)

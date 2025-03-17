@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.VirtualTexturing;
 
 public class PlayerStateMachine : CharacterBase
 {
@@ -128,6 +129,22 @@ public class PlayerStateMachine : CharacterBase
 
     public void HandleMovement()
     {
+	    Vector3 cameraRelativeMovement =  HandleCameraRelative();
+	    
+	    HandleRotation(cameraRelativeMovement, rotationSpeed);
+		
+	    rb.linearVelocity = new Vector3(cameraRelativeMovement.x * moveSpeed, rb.linearVelocity.y, cameraRelativeMovement.z * moveSpeed);
+    }
+
+    public Vector3 HandleRotation(Vector3 cameraRelativeMovement, float rotateSpeed)
+    {
+	    transform.forward = Vector3.Slerp(transform.forward, cameraRelativeMovement.normalized, Time.deltaTime * rotateSpeed);
+	    
+	    return transform.forward;
+    }
+
+    public Vector3 HandleCameraRelative()
+    {
 	    Vector3 cameraForward = Camera.main.transform.forward;
 	    Vector3 cameraRight = Camera.main.transform.right;
 
@@ -141,10 +158,8 @@ public class PlayerStateMachine : CharacterBase
 		
 	    Vector3 cameraRelativeMovement = forwardRelativeMovementVector + rightRelativeMovementVector;
 	    cameraRelativeMovement.Normalize();
-		
-	    transform.forward = Vector3.Slerp(transform.forward, cameraRelativeMovement.normalized, Time.deltaTime * rotationSpeed);
-		
-	    rb.linearVelocity = new Vector3(cameraRelativeMovement.x * moveSpeed, rb.linearVelocity.y, cameraRelativeMovement.z * moveSpeed);
+	    
+	    return cameraRelativeMovement;
     }
 
     public void Attack(InputAction.CallbackContext context)

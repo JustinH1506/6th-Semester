@@ -25,14 +25,16 @@ public class EnemyAttackState : EnemyBaseState
 
 	public override void CheckSwitchStates()
 	{
-		while (waitCounter > 0.05f)
-		{
-			waitCounter -= Time.deltaTime;
-			return;
-		}
+		
 
-		if (ctx.DistanceBetweenPlayer() > 3)
+		if (ctx.DistanceBetweenPlayer() < 3)
 		{
+			while (waitCounter > 0.05f)
+			{
+				waitCounter -= Time.deltaTime;
+				return;
+			}
+			
 			SwitchStates(factory.Follow());
 		}
 		else

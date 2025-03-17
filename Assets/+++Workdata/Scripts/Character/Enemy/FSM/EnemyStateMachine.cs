@@ -20,12 +20,12 @@ public class EnemyStateMachine : CharacterBase
 	private Transform playerTransform;
 
 	private Animator anim;
+	
+	[SerializeField] private float distanceThreshold = 0f;
 
 	[SerializeField] private Transform[] checkPoints;
 	
 	private int currentPoint = 0;
-	
-	[SerializeField] private float distanceThreshold = 0f;
 	
 	#region Getters and Setters
 	

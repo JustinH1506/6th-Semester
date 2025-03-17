@@ -4,7 +4,10 @@ public class EnemyFollowState: EnemyBaseState
 {
 	public EnemyFollowState(EnemyStateMachine currentContext, EnemyStateFactory enemyStateFactory) :base  (currentContext, enemyStateFactory){}
 
-	public override void EnterState(){}
+	public override void EnterState()
+	{
+		
+	}
 
 	public override void UpdateState()
 	{
