@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering.VirtualTexturing;
 
 public class PlayerStateMachine : CharacterBase
 {
+	public event Action<float> OnStaminaChanged;
+	
     #region States
     
     private PlayerBaseState currentState;
@@ -13,6 +15,7 @@ public class PlayerStateMachine : CharacterBase
     
     #endregion
     
+    
     #region Movement Variabels
     
     [Header("Movement Variables"), Tooltip("Max movement speed during walking.")]
@@ -21,10 +24,19 @@ public class PlayerStateMachine : CharacterBase
     [SerializeField] private float rotationSpeed = 0f;
     private float moveSpeed = 0;
     private bool isSprinting = false;
+    private bool canTurn = true;
     
     [Space]
     #endregion
 
+    #region Stamina
+
+    private float currentStamina = 0f;
+    private float runCost = 5f;
+    [SerializeField] private float maxStamina = 50f;
+    
+    #endregion
+    
     #region Attack Variables
 
     private bool isAttacking = false;
@@ -46,8 +58,11 @@ public class PlayerStateMachine : CharacterBase
     public float MaxSprintMoveSpeed {get { return maxSprintMoveSpeed; } set { maxSprintMoveSpeed = value; } }
     public float MoveSpeed {get { return moveSpeed; } }
     public float RotationSpeed {get { return rotationSpeed; } }
+    public float Stamina {get { return currentStamina; } set{ SetCurrentStamina(value); } }
+    public float RunCost {get { return runCost; } }
     public bool IsSprinting {get { return isSprinting; } }
     public bool IsMoving {get { return isMoving; } }
+    public bool CanTurn {get { return canTurn; } set { canTurn = value; } }
     
     #endregion
 
@@ -90,20 +105,24 @@ public class PlayerStateMachine : CharacterBase
 	    currentState.EnterState();
 	    rb = GetComponent<Rigidbody>();
 	    anim  = GetComponent<Animator>();
+	    currentStamina = maxStamina;
     }
 
     private void Start()
     {
 	    moveSpeed = maxMoveSpeed;
+	  
     }
     
     private void OnEnable()
     {
 	    OnRegisterCurrentHealth(HealthChanged, true);
+	    OnRegisterCurrentStamina(StaminaChanged, true);
     }
     private void OnDisable()
     {
 	    OnHealthChanged -= HealthChanged;
+	    OnStaminaChanged -= StaminaChanged;
     }
 
     private void FixedUpdate()
@@ -136,11 +155,9 @@ public class PlayerStateMachine : CharacterBase
 	    rb.linearVelocity = new Vector3(cameraRelativeMovement.x * moveSpeed, rb.linearVelocity.y, cameraRelativeMovement.z * moveSpeed);
     }
 
-    public Vector3 HandleRotation(Vector3 cameraRelativeMovement, float rotateSpeed)
+    public void HandleRotation(Vector3 cameraRelativeMovement, float rotateSpeed)
     {
 	    transform.forward = Vector3.Slerp(transform.forward, cameraRelativeMovement.normalized, Time.deltaTime * rotateSpeed);
-	    
-	    return transform.forward;
     }
 
     public Vector3 HandleCameraRelative()
@@ -155,7 +172,7 @@ public class PlayerStateMachine : CharacterBase
 		
 	    Vector3 forwardRelativeMovementVector = inputZ * cameraForward;
 	    Vector3 rightRelativeMovementVector = inputX * cameraRight;
-		
+	    
 	    Vector3 cameraRelativeMovement = forwardRelativeMovementVector + rightRelativeMovementVector;
 	    cameraRelativeMovement.Normalize();
 	    
@@ -164,11 +181,14 @@ public class PlayerStateMachine : CharacterBase
 
     public void Attack(InputAction.CallbackContext context)
     {
-	    anim.SetTrigger("Attack");
-	    anim.SetBool("IsAttacking", true);
-	    isAttacking = true;
-	    attackAmount++;
-	    anim.SetInteger("CurrentAttack", attackAmount);
+	    if (currentStamina > 0.05f)
+	    {
+		    anim.SetTrigger("Attack");
+		    anim.SetBool("IsAttacking", true);
+		    isAttacking = true;
+		    attackAmount++;
+		    anim.SetInteger("CurrentAttack", attackAmount);
+	    }
     }
     
     public void Sprint(InputAction.CallbackContext context)
@@ -186,10 +206,53 @@ public class PlayerStateMachine : CharacterBase
 		    moveSpeed = maxMoveSpeed;
 	    }
     }
+
+    public void GetCurrentStamina()
+    {
+	    if (currentStamina < 50f)
+	    {
+			Stamina += Time.deltaTime * runCost;
+	    }
+    }
+
+    public void SetCurrentStamina(float newStamina)
+    {
+	    if (newStamina > maxStamina)
+		    newStamina = maxStamina;
+	    
+	    currentStamina = newStamina;
+
+	    if (OnStaminaChanged != null)
+	    {
+		    OnStaminaChanged(currentStamina);
+	    }
+    }
+
+    public void AttackStaminaUse()
+    {
+	    Stamina -= runCost;
+    }
     
     private void HealthChanged(int newHealth)
     {
 	    UIManager.Instance.playerHealthUi.fillAmount = (float)newHealth / baseMaxHealth;
+    }
+
+    private void StaminaChanged(float newStamina)
+    {
+	    UIManager.Instance.playerStaminaUi.fillAmount = newStamina / maxStamina;
+    }
+
+    private void OnRegisterCurrentStamina(Action<float> callback, bool getInstantCallback = false)
+    {
+	    OnStaminaChanged += callback;
+	    if (getInstantCallback)
+		    callback(currentStamina);
+    }
+
+    public void ChangeTurnState()
+    {
+	    canTurn = !canTurn;
     }
     
     #endregion

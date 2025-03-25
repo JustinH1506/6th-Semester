@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour
 	[Header("Images")]
 
 	public Image playerHealthUi;
+	public Image playerStaminaUi;
 	
 	[Space]
 

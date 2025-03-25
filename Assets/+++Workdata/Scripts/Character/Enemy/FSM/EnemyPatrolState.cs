@@ -14,7 +14,7 @@ public class EnemyPatrolState : EnemyBaseState
     {
         CheckSwitchStates();
 
-        if (ctx.NavMeshAgent.remainingDistance <= 0.1f)
+        if (ctx.NavMeshAgent.remainingDistance <= 0.5f)
         {
             NextPoint();
         }

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.ProBuilder;
 
 public class EnemyAttackState : EnemyBaseState
 {
@@ -9,6 +10,7 @@ public class EnemyAttackState : EnemyBaseState
 	private float maxWaitCounter = 2f;
 	public override void EnterState()
 	{
+		FaceTarget();
 		waitCounter = maxWaitCounter;
 	}
 
@@ -41,5 +43,14 @@ public class EnemyAttackState : EnemyBaseState
 		{
 			SwitchStates(factory.Patrol());
 		}
+	}
+	
+	void FaceTarget()
+	{
+		var turnTowardNavSteeringTarget = ctx.NavMeshAgent.steeringTarget;
+      
+		Vector3 direction = (turnTowardNavSteeringTarget - ctx.transform.position).normalized;
+		Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+		ctx.transform.rotation = Quaternion.Slerp(ctx.transform.rotation, lookRotation, Time.deltaTime * 5);
 	}
 }

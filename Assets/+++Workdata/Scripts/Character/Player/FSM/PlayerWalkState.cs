@@ -11,6 +11,7 @@ public class PlayerWalkState : PlayerBaseState
 
 	public override void UpdateState()
 	{
+		ctx.GetCurrentStamina();
 		ctx.HandleMovement();
 		CheckSwitchStates();
 	}

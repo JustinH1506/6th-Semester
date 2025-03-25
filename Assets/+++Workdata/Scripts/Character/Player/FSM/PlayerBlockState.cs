@@ -21,13 +21,6 @@ public class PlayerBlockState : PlayerBaseState
 
 	public override void CheckSwitchStates()
 	{
-		if (ctx.Anim.GetCurrentAnimatorStateInfo(0).IsName("Attack01") ||  ctx.Anim.GetCurrentAnimatorStateInfo(0).IsName("Attack02") || ctx.Anim.GetCurrentAnimatorStateInfo(0).IsName("Attack03"))
-		{
-			return;
-		}
-		
-		ctx.IsAttacking = false;
-		
 		if (ctx.IsMoving && ctx.IsSprinting)
 		{
 			SwitchStates(factory.Run());

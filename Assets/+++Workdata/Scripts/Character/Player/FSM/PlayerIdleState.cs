@@ -12,6 +12,8 @@ public class PlayerIdleState : PlayerBaseState
 
 	public override void UpdateState()
 	{
+		ctx.HandleRotation(ctx.HandleCameraRelative(), ctx.RotationSpeed);
+		ctx.GetCurrentStamina();
 		CheckSwitchStates();
 	}
 	public override void ExitState(){}

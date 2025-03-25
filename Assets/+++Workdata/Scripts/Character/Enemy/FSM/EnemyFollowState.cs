@@ -23,7 +23,7 @@ public class EnemyFollowState: EnemyBaseState
 
 	public override void CheckSwitchStates()
 	{
-		if (ctx.DistanceBetweenPlayer() > 3)
+		if (ctx.DistanceBetweenPlayer() > 4)
 		{
 			SwitchStates(factory.Attack());
 		}

@@ -11,11 +11,17 @@ public class PlayerAttackState : PlayerBaseState
 
 	public override void UpdateState()
 	{
+		if (ctx.CanTurn && ctx.HandleCameraRelative() != Vector3.zero)
+		{
+			ctx.HandleRotation(ctx.HandleCameraRelative(), 500f);
+		}
+		
 		CheckSwitchStates();
 	}
 
 	public override void ExitState()
 	{
+		ctx.CanTurn = true;
 		ctx.AttackAmount = 0;
 		ctx.Anim.SetInteger("CurrentAttack", ctx.AttackAmount);
 	}

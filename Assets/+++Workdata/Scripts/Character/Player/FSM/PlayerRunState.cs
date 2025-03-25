@@ -13,6 +13,7 @@ public class PlayerRunState : PlayerBaseState
 	public override void UpdateState()
 	{
 		ctx.HandleMovement();
+		ctx.Stamina -= Time.deltaTime * ctx.RunCost;
 		CheckSwitchStates();
 	}
 	public override void ExitState(){}
@@ -35,6 +36,14 @@ public class PlayerRunState : PlayerBaseState
 			SwitchStates(factory.Idle());
 			ctx.Anim.SetBool( "IsSprinting", false );
 			ctx.Anim.SetBool( "IsMoving", false );
+		}
+		else if (ctx.Stamina <= 0 && ctx.IsMoving)
+		{
+			SwitchStates(factory.Walk());
+		}
+		else if (ctx.Stamina <= 0 && !ctx.IsMoving)
+		{
+			SwitchStates(factory.Idle());
 		}
 	}
 	public override void InitializeSubStates(){}
