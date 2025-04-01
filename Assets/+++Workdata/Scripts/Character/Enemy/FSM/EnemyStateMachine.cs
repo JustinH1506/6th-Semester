@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyStateMachine : CharacterBase
+public class EnemyStateMachine : CharacterBase, IDataPersistence
 {
 	#region States
 	
@@ -14,6 +15,10 @@ public class EnemyStateMachine : CharacterBase
 	public EnemyBaseState CurrentState { get { return currentState; } set { currentState = value; } }
 	
 	#endregion
+	
+	#region Variables
+
+	[SerializeField] private string uniqueGuid;
 	
 	private NavMeshAgent navMeshAgent;
 	
@@ -28,6 +33,8 @@ public class EnemyStateMachine : CharacterBase
 	private int currentPoint = 0;
 	
 	private bool gotHit = false;
+	
+	#endregion
 	
 	#region Getters and Setters
 	
@@ -62,9 +69,38 @@ public class EnemyStateMachine : CharacterBase
 	{
 		currentState.UpdateState();
 	}
+	
+	private void OnValidate()
+	{
+		if (string.IsNullOrEmpty(gameObject.scene.name))
+		{
+			uniqueGuid = "";
+		}
+		else if (string.IsNullOrEmpty(uniqueGuid))
+		{
+			uniqueGuid = System.Guid.NewGuid().ToString();
+		}
+	}
 
 	public float DistanceBetweenPlayer()
 	{
 		return Vector3.Distance(transform.position, PlayerTransform.position);
+	}
+
+	public void SaveData(GameData gameData)
+	{
+		if (gameData.enemyPositionByGuid.ContainsKey(uniqueGuid))
+		{
+			gameData.enemyPositionByGuid.Remove(uniqueGuid);
+		}
+		gameData.enemyPositionByGuid.Add(uniqueGuid, transform.position);
+	}
+
+	public void LoadData(GameData data)
+	{
+		if (data.enemyPositionByGuid.TryGetValue(uniqueGuid, out Vector3 position))
+		{
+			transform.position = data.GetEnemyPosition(uniqueGuid);
+		}
 	}
 }

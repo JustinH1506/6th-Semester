@@ -132,15 +132,14 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 
     public void LoadData(GameData data)
     {
-	    if (data.playerPosition != Vector3.zero)
-	    {
-			transform.position = data.playerPosition;
-	    }
+	    transform.position = data.playerPosition;
+	    CurrentHealth = data.playerHp;
     }
 
     public void SaveData(GameData data)
     {
 	    data.playerPosition = transform.position;
+	    data.playerHp = CurrentHealth;
     }
 
     public void Move(InputAction.CallbackContext context)
