@@ -29,6 +29,7 @@ public class PlayerInputManager : MonoBehaviour
 
 		playerInput.Player.Attack.performed += playerStateMachine.Attack;
 
+		playerInput.Player.Dodge.performed += playerStateMachine.Dodge;
 	}
 
 	private void OnDisable()
@@ -42,7 +43,8 @@ public class PlayerInputManager : MonoBehaviour
 		playerInput.Player.Sprint.canceled -= playerStateMachine.Sprint;
 		
 		playerInput.Player.Attack.performed -= playerStateMachine.Attack;
-
+		
+		playerInput.Player.Dodge.performed -= playerStateMachine.Dodge;
 	}
 	#endregion
 }

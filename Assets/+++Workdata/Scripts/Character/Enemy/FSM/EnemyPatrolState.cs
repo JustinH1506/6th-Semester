@@ -31,6 +31,10 @@ public class EnemyPatrolState : EnemyBaseState
         {
             SwitchStates(factory.Follow());
         }
+        else if(ctx.GotHit)
+        {
+            SwitchStates(factory.Stun());
+        }
     }
 
     private void NextPoint()

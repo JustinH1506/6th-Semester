@@ -24,16 +24,17 @@ public class PlayerIdleState : PlayerBaseState
 		{
 			SwitchStates(factory.Attack());
 		}
+		else if (ctx.IsDodging)
+		{
+			SwitchStates(factory.Dodge());
+		}
 		else if (ctx.IsSprinting && ctx.IsMoving)
 		{
 			SwitchStates(factory.Run());
-			ctx.Anim.SetBool( "IsMoving", true );
-			ctx.Anim.SetBool( "IsSprinting", true );
 		}
 		else if (!ctx.IsSprinting && ctx.IsMoving)
 		{
 			SwitchStates(factory.Walk());
-			ctx.Anim.SetBool( "IsMoving", true );
 		}
 	}
 	public override void InitializeSubStates(){}

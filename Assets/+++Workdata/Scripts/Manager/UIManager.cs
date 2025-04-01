@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,7 @@ public class UIManager : MonoBehaviour
 	public CanvasGroup gameOverScreen;
 	public CanvasGroup optionsScreen;
 	public CanvasGroup inGameUi;
+	public CanvasGroup pauseScreen;
 
 	[Header("Buttons")] 
 	
@@ -39,10 +41,31 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
-	public void StartGame()
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Escape) && pauseScreen.alpha <= 1)
+		{
+			OpenMenu(pauseScreen, CursorLockMode.None, 0f);
+		}
+		else if(Input.GetKeyDown(KeyCode.Escape) && pauseScreen.alpha >= 1)
+		{
+			CloseMenu(pauseScreen, CursorLockMode.None, 0f);
+		}
+	}
+
+	public void StartNewGame()
 	{
 		SceneLoader.Instance.sceneStates = SceneLoader.SceneStates.Level01;
-		StartCoroutine(SceneLoader.Instance.LoadScene((int)SceneLoader.Instance.sceneStates, 1));
+		StartCoroutine(SceneLoader.Instance.LoadScene((int)SceneLoader.Instance.sceneStates, 1, false));
+		CloseMenu(mainMenuScreen, CursorLockMode.Locked, 1);
+		OpenMenu(inGameUi, CursorLockMode.Locked, 1f);
+		DataPersistenceManager.Instance.NewGame();
+	}
+
+	public void LoadGame()
+	{
+		SceneLoader.Instance.sceneStates = SceneLoader.SceneStates.Level01;
+		StartCoroutine(SceneLoader.Instance.LoadScene((int)SceneLoader.Instance.sceneStates, 1, true));
 		CloseMenu(mainMenuScreen, CursorLockMode.Locked, 1);
 		OpenMenu(inGameUi, CursorLockMode.Locked, 1f);
 	}
@@ -51,6 +74,11 @@ public class UIManager : MonoBehaviour
 	{
 		StartCoroutine(SceneLoader.Instance.LoadScene(SceneLoader.Instance.currentScene, (int)SceneLoader.Instance.sceneStates, 1)); 
 		CloseMenu(gameOverScreen, CursorLockMode.Locked, 1f);
+	}
+
+	public void Resume()
+	{
+		CloseMenu(pauseScreen, CursorLockMode.Locked, 1f);
 	}
 
 	public void OpenMenu(CanvasGroup canvasGroup, CursorLockMode lockMode, float timeScale)
@@ -83,5 +111,15 @@ public class UIManager : MonoBehaviour
 		Cursor.lockState = lockMode;
 
 		Time.timeScale = timeScale;
+	}
+
+	public void SaveGame()
+	{
+		DataPersistenceManager.Instance.SaveGame();
+	}
+
+	public void Quit()
+	{
+		Application.Quit();
 	}
 }

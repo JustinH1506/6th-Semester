@@ -23,4 +23,9 @@ public class EnemyStateFactory
    {
       return new EnemyAttackState(context, this);
    }
+   
+   public EnemyBaseState Stun()
+   {
+      return new EnemyStunState(context, this);
+   }
 }

@@ -23,12 +23,16 @@ public class EnemyAttackState : EnemyBaseState
 	public override void ExitState()
 	{
 		waitCounter = maxWaitCounter;
+		ctx.NavMeshAgent.isStopped = false;
 	}
 
 	public override void CheckSwitchStates()
 	{
+		if (ctx.Anim.GetCurrentAnimatorStateInfo(0).IsName("Attack01"))
+		{
+			return;
+		}
 		
-
 		if (ctx.DistanceBetweenPlayer() < 3)
 		{
 			while (waitCounter > 0.05f)
@@ -51,6 +55,8 @@ public class EnemyAttackState : EnemyBaseState
       
 		Vector3 direction = (turnTowardNavSteeringTarget - ctx.transform.position).normalized;
 		Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-		ctx.transform.rotation = Quaternion.Slerp(ctx.transform.rotation, lookRotation, Time.deltaTime * 5);
+		
+		
+		ctx.transform.rotation = Quaternion.Slerp(ctx.transform.rotation, lookRotation, Time.deltaTime * 500);
 	}
 }

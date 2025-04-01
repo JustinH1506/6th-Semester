@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerStateMachine : CharacterBase
+public class PlayerStateMachine : CharacterBase, IDataPersistence
 {
 	public event Action<float> OnStaminaChanged;
 	
@@ -14,7 +14,6 @@ public class PlayerStateMachine : CharacterBase
     public PlayerBaseState CurrentState { get { return currentState; } set { currentState = value; } }
     
     #endregion
-    
     
     #region Movement Variabels
     
@@ -39,8 +38,9 @@ public class PlayerStateMachine : CharacterBase
     
     #region Attack Variables
 
-    private bool isAttacking = false;
     private int attackAmount = 0;
+    private bool isAttacking = false;
+    private bool isDodging = false;
 
     #endregion
 	
@@ -70,6 +70,7 @@ public class PlayerStateMachine : CharacterBase
 
     public int AttackAmount {get { return attackAmount; } set { attackAmount = value; } }
     public bool IsAttacking {get { return isAttacking; }  set { isAttacking = value; } }
+    public bool IsDodging {get { return isDodging; }  set { isAttacking = value; } }
     
     #endregion
     
@@ -111,7 +112,6 @@ public class PlayerStateMachine : CharacterBase
     private void Start()
     {
 	    moveSpeed = maxMoveSpeed;
-	  
     }
     
     private void OnEnable()
@@ -128,6 +128,19 @@ public class PlayerStateMachine : CharacterBase
     private void FixedUpdate()
     {
 	    currentState.UpdateState();
+    }
+
+    public void LoadData(GameData data)
+    {
+	    if (data.playerPosition != Vector3.zero)
+	    {
+			transform.position = data.playerPosition;
+	    }
+    }
+
+    public void SaveData(GameData data)
+    {
+	    data.playerPosition = transform.position;
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -157,7 +170,10 @@ public class PlayerStateMachine : CharacterBase
 
     public void HandleRotation(Vector3 cameraRelativeMovement, float rotateSpeed)
     {
-	    transform.forward = Vector3.Slerp(transform.forward, cameraRelativeMovement.normalized, Time.deltaTime * rotateSpeed);
+	    if (HandleCameraRelative() != Vector3.zero)
+	    {
+		    transform.forward = Vector3.Slerp(transform.forward, cameraRelativeMovement.normalized, Time.deltaTime * rotateSpeed);
+	    }
     }
 
     public Vector3 HandleCameraRelative()
@@ -183,7 +199,6 @@ public class PlayerStateMachine : CharacterBase
     {
 	    if (currentStamina > 0.05f)
 	    {
-		    anim.SetTrigger("Attack");
 		    anim.SetBool("IsAttacking", true);
 		    isAttacking = true;
 		    attackAmount++;
@@ -205,6 +220,11 @@ public class PlayerStateMachine : CharacterBase
 		    Anim.SetBool("IsSprinting", false);
 		    moveSpeed = maxMoveSpeed;
 	    }
+    }
+
+    public void Dodge(InputAction.CallbackContext context)
+    {
+	    isDodging = true;
     }
 
     public void GetCurrentStamina()
@@ -253,6 +273,18 @@ public class PlayerStateMachine : CharacterBase
     public void ChangeTurnState()
     {
 	    canTurn = !canTurn;
+    }
+
+    public void ChangeTag()
+    {
+	    if (!CompareTag("Invulnerable"))
+	    {
+			tag = "Invulnerable";
+	    }
+	    else
+	    {
+		    tag = "Player";
+	    }
     }
     
     #endregion

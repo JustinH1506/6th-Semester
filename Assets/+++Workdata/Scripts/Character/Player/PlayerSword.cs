@@ -11,6 +11,7 @@ public class PlayerSword : MonoBehaviour
 		{
 			other.GetComponent<CharacterBase>().TakeDamage(_playerActions.baseAttack);
 			other.GetComponent<EnemyStateMachine>().Anim.SetTrigger("GotHit");
+			other.GetComponent<EnemyStateMachine>().GotHit = true;
 		}
 	}
 }

@@ -26,6 +26,13 @@ public class EnemyStunState : EnemyBaseState
 
 	public override void CheckSwitchStates()
 	{
-		
+		if (Vector3.Distance(ctx.transform.position, ctx.PlayerTransform.position) < ctx.DistanceThreshold)
+		{
+			SwitchStates(factory.Follow());
+		}
+		else if(ctx.NavMeshAgent.remainingDistance > 5)
+		{
+			SwitchStates(factory.Patrol());
+		}
 	}
 }

@@ -27,6 +27,8 @@ public class EnemyStateMachine : CharacterBase
 	
 	private int currentPoint = 0;
 	
+	private bool gotHit = false;
+	
 	#region Getters and Setters
 	
 	public NavMeshAgent NavMeshAgent { get { return navMeshAgent; } set { navMeshAgent = value; } }
@@ -40,6 +42,8 @@ public class EnemyStateMachine : CharacterBase
 	public int CurrentPoint { get { return currentPoint; } set { currentPoint = value; } }
 	
 	public float DistanceThreshold { get { return distanceThreshold; } }
+	
+	public bool GotHit { get { return gotHit; } set { gotHit = value; } }
 	
 	#endregion
 	

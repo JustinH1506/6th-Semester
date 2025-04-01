@@ -6,15 +6,12 @@ public class PlayerAttackState : PlayerBaseState
 	
 	public override void EnterState()
 	{
-		
+		ctx.Anim.SetBool("IsAttacking", false);
 	}
 
 	public override void UpdateState()
 	{
-		if (ctx.CanTurn && ctx.HandleCameraRelative() != Vector3.zero)
-		{
-			ctx.HandleRotation(ctx.HandleCameraRelative(), 500f);
-		}
+		ctx.HandleRotation(ctx.HandleCameraRelative(), 500f);
 		
 		CheckSwitchStates();
 	}
@@ -35,6 +32,7 @@ public class PlayerAttackState : PlayerBaseState
 		
 		ctx.IsAttacking = false;
 		ctx.Anim.SetBool("IsAttacking", false);
+
 		
 		if (ctx.IsMoving && ctx.IsSprinting)
 		{

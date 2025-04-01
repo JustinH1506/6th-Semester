@@ -18,12 +18,12 @@ public class EnemyFollowState: EnemyBaseState
 
 	public override void ExitState()
 	{
-		
+		ctx.NavMeshAgent.isStopped = true;
 	}
 
 	public override void CheckSwitchStates()
 	{
-		if (ctx.DistanceBetweenPlayer() > 4)
+		if (ctx.DistanceBetweenPlayer() < 8)
 		{
 			SwitchStates(factory.Attack());
 		}

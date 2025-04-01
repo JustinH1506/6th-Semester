@@ -28,9 +28,14 @@ public class PlayerWalkState : PlayerBaseState
 			SwitchStates(factory.Attack());
 			ctx.Rb.linearVelocity = Vector3.zero;
 		}
+		else if (ctx.IsDodging)
+		{
+			SwitchStates(factory.Dodge());
+		}
 		else if (!ctx.IsMoving)
 		{
 			SwitchStates(factory.Idle());
+			ctx.Anim.SetBool( "IsMoving", false );
 		}
 		else if (ctx.IsMoving && ctx.IsSprinting)
 		{

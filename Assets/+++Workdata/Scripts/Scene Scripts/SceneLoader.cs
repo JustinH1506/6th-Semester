@@ -47,7 +47,7 @@ public class SceneLoader : MonoBehaviour
 		currentScene = (int)sceneStates; 
 	}
 	
-	public IEnumerator LoadScene(int newScene, int timeScale)
+	public IEnumerator LoadScene(int newScene, int timeScale, bool loadGame)
 	{
 		UIManager.Instance.OpenMenu(UIManager.Instance.loadingScreen, CursorLockMode.Locked, 1f);
 		
@@ -70,6 +70,11 @@ public class SceneLoader : MonoBehaviour
 		currentScene = newScene;
 
 		Time.timeScale = timeScale;
+
+		if (loadGame)
+		{
+			DataPersistenceManager.Instance.LoadGame();
+		}
 	}
 
 	/// <summary>

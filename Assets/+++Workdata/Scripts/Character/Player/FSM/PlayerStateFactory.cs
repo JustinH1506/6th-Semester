@@ -29,8 +29,13 @@ public class PlayerStateFactory
         return new PlayerAttackState(context, this);
     }
 
-    public PlayerBaseState Block()
+    public PlayerBaseState Dodge()
     {
-        return new PlayerBlockState(context, this);
+        return new PlayerDodgeState(context, this);
+    }
+
+    public PlayerBaseState Stun()
+    {
+        return new PlayerStunState(context, this);
     }
 }
