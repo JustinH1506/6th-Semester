@@ -9,6 +9,7 @@ public class CharacterBase : MonoBehaviour
 	[SerializeField] protected int baseCurrentHealth;
 	[SerializeField] protected int baseDefense;
 	public int baseAttack;
+	protected bool isDead = false;
 
 	public int CurrentHealth
 	{

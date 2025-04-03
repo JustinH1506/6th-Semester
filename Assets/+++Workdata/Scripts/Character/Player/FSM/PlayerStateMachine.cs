@@ -1,19 +1,27 @@
 using System;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerStateMachine : CharacterBase, IDataPersistence
 {
-	public event Action<float> OnStaminaChanged;
+	#region Actions
+	public event Action<float> onStaminaChanged;
+	
+	#endregion
 	
     #region States
     
     private PlayerBaseState currentState;
     public PlayerStateFactory states;
     
-    public PlayerBaseState CurrentState { get { return currentState; } set { currentState = value; } }
+    public PlayerBaseState CurrentState { get => currentState;
+	    set => currentState = value;
+    }
     
     #endregion
+    
+    [SerializeField] CinemachineFreeLook cinemachineFreeLook;
     
     #region Movement Variabels
     
@@ -54,37 +62,54 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 
     #region Movement
     
-    public float MaxMoveSpeed {get { return maxMoveSpeed; } set { maxMoveSpeed = value; } }
-    public float MaxSprintMoveSpeed {get { return maxSprintMoveSpeed; } set { maxSprintMoveSpeed = value; } }
-    public float MoveSpeed {get { return moveSpeed; } }
-    public float RotationSpeed {get { return rotationSpeed; } }
-    public float Stamina {get { return currentStamina; } set{ SetCurrentStamina(value); } }
-    public float RunCost {get { return runCost; } }
-    public bool IsSprinting {get { return isSprinting; } }
-    public bool IsMoving {get { return isMoving; } }
-    public bool CanTurn {get { return canTurn; } set { canTurn = value; } }
+    public float MaxMoveSpeed {get => maxMoveSpeed;
+	    set => maxMoveSpeed = value;
+    }
+    public float MaxSprintMoveSpeed {get => maxSprintMoveSpeed;
+	    set => maxSprintMoveSpeed = value;
+    }
+    public float MoveSpeed => moveSpeed;
+    public float RotationSpeed => rotationSpeed;
+    public float Stamina {get => currentStamina;
+	    set => SetCurrentStamina(value);
+    }
+    public float RunCost => runCost;
+    public bool IsSprinting => isSprinting;
+    public bool IsMoving => isMoving;
+    public bool CanTurn {get => canTurn;
+	    set => canTurn = value;
+    }
     
     #endregion
 
     #region Attack
 
-    public int AttackAmount {get { return attackAmount; } set { attackAmount = value; } }
-    public bool IsAttacking {get { return isAttacking; }  set { isAttacking = value; } }
-    public bool IsDodging {get { return isDodging; }  set { isAttacking = value; } }
-    
+    public int AttackAmount {get => attackAmount;
+	    set => attackAmount = value;
+    }
+    public bool IsAttacking {get => isAttacking;
+	    set => isAttacking = value;
+    }
+
+    public bool IsDodging
+    {
+	    get => isDodging;
+	    set => isAttacking = value;
+    }
+
     #endregion
     
     #region Stuff
     
-    public Rigidbody Rb { get { return rb; } }
-    
+    public Rigidbody Rb => rb;
+
     #endregion
     
-    public Animator Anim { get { return anim; } }
-    
-    public float InputZ { get { return inputZ; } }
-    public float InputX { get { return inputX; } }
-    
+    public Animator Anim => anim;
+
+    public float InputZ => inputZ;
+    public float InputX => inputX;
+
     [Space]
     
     #endregion
@@ -122,7 +147,7 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
     private void OnDisable()
     {
 	    OnHealthChanged -= HealthChanged;
-	    OnStaminaChanged -= StaminaChanged;
+	    onStaminaChanged -= StaminaChanged;
     }
 
     private void FixedUpdate()
@@ -130,16 +155,21 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 	    currentState.UpdateState();
     }
 
-    public void LoadData(GameData data)
+    public void LoadData(GameData gameData)
     {
-	    transform.position = data.playerPosition;
-	    CurrentHealth = data.playerHp;
+	    transform.position = gameData.playerPosition;
+	    CurrentHealth = gameData.playerHp;
+	    
+	    cinemachineFreeLook.ForceCameraPosition(gameData.cameraPosition, gameData.cameraRotation);
     }
 
-    public void SaveData(GameData data)
+    public void SaveData(GameData gameData)
     {
-	    data.playerPosition = transform.position;
-	    data.playerHp = CurrentHealth;
+	    gameData.playerPosition = transform.position;
+	    gameData.playerHp = CurrentHealth;
+	    
+	    gameData.cameraPosition = cinemachineFreeLook.transform.position;
+	    gameData.cameraRotation = cinemachineFreeLook.transform.rotation;
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -241,9 +271,9 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 	    
 	    currentStamina = newStamina;
 
-	    if (OnStaminaChanged != null)
+	    if (onStaminaChanged != null)
 	    {
-		    OnStaminaChanged(currentStamina);
+		    onStaminaChanged(currentStamina);
 	    }
     }
 
@@ -264,7 +294,7 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 
     private void OnRegisterCurrentStamina(Action<float> callback, bool getInstantCallback = false)
     {
-	    OnStaminaChanged += callback;
+	    onStaminaChanged += callback;
 	    if (getInstantCallback)
 		    callback(currentStamina);
     }

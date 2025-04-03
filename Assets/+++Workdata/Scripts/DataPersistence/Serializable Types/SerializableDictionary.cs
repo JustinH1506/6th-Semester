@@ -25,7 +25,7 @@ public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IS
 
 		if (keys.Count != values.Count)
 		{
-			Debug.LogError("OnAfterDeserialize: keys.Count != values.Count");
+			Debug.LogError("OnAfterDeserialize: keys.Count != values.Count " + keys.Count + " " + values.Count);
 		}
 
 		for (int i = 0; i < keys.Count; i++)

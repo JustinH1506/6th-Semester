@@ -6,7 +6,6 @@ public class EnemyPatrolState : EnemyBaseState
 
     public override void EnterState()
     {
-        ctx.NavMeshAgent.autoBraking = false;
         ctx.NavMeshAgent.destination = ctx.CheckPoints[ctx.CurrentPoint].position;
     }
 

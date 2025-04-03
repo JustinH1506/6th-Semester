@@ -12,7 +12,9 @@ public class EnemyStateMachine : CharacterBase, IDataPersistence
 	private EnemyBaseState currentState;
 	private EnemyStateFactory states;
 	
-	public EnemyBaseState CurrentState { get { return currentState; } set { currentState = value; } }
+	public EnemyBaseState CurrentState { get => currentState;
+		set => currentState = value;
+	}
 	
 	#endregion
 	
@@ -33,29 +35,55 @@ public class EnemyStateMachine : CharacterBase, IDataPersistence
 	private int currentPoint = 0;
 	
 	private bool gotHit = false;
+
+	private Data data;
 	
 	#endregion
 	
 	#region Getters and Setters
 	
-	public NavMeshAgent NavMeshAgent { get { return navMeshAgent; } set { navMeshAgent = value; } }
+	public NavMeshAgent NavMeshAgent { get => navMeshAgent;
+		set => navMeshAgent = value;
+	}
 	
-	public Transform PlayerTransform { get { return playerTransform; } set { playerTransform = value; } }
+	public Transform PlayerTransform { get => playerTransform;
+		set => playerTransform = value;
+	}
 	
-	public Animator Anim { get { return anim; } }
+	public Animator Anim => anim;
+
+	public Transform[] CheckPoints => checkPoints;
+
+	public int CurrentPoint { get => currentPoint;
+		set => currentPoint = value;
+	}
 	
-	public Transform[] CheckPoints { get { return checkPoints; } }
+	public float DistanceThreshold => distanceThreshold;
+
+	public bool GotHit { get => gotHit;
+		set => gotHit = value;
+	}
 	
-	public int CurrentPoint { get { return currentPoint; } set { currentPoint = value; } }
+	#endregion
+
+	#region Data Class
 	
-	public float DistanceThreshold { get { return distanceThreshold; } }
-	
-	public bool GotHit { get { return gotHit; } set { gotHit = value; } }
+	[System.Serializable]
+	public class Data
+	{
+		public Vector3 position;
+		public int currentPatrolPoint;
+		public bool isDead;
+	}
 	
 	#endregion
 	
+	#region Methods
+	
 	private void Awake()
 	{
+		data = new Data();
+		
 		navMeshAgent = GetComponent<NavMeshAgent>();
 		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 		anim = GetComponent<Animator>();
@@ -93,14 +121,31 @@ public class EnemyStateMachine : CharacterBase, IDataPersistence
 		{
 			gameData.enemyPositionByGuid.Remove(uniqueGuid);
 		}
-		gameData.enemyPositionByGuid.Add(uniqueGuid, transform.position);
+		data.position = transform.position;
+		data.currentPatrolPoint = CurrentPoint;
+		data.isDead = isDead;
+		gameData.enemyPositionByGuid.Add(uniqueGuid, data);
 	}
 
-	public void LoadData(GameData data)
+	public void LoadData(GameData gameData)
 	{
-		if (data.enemyPositionByGuid.TryGetValue(uniqueGuid, out Vector3 position))
+		if (gameData.enemyPositionByGuid.TryGetValue(uniqueGuid, out data))
 		{
-			transform.position = data.GetEnemyPosition(uniqueGuid);
+			data = gameData.GetEnemyPosition(uniqueGuid);
+			
+			if (data.isDead)
+			{
+				gameObject.SetActive(false);
+				return;
+			}
+			
+			transform.position = data.position;
+			
+			CurrentPoint = data.currentPatrolPoint;
+			
+			NavMeshAgent.destination = CheckPoints[CurrentPoint].position;
 		}
 	}
+	
+	#endregion
 }

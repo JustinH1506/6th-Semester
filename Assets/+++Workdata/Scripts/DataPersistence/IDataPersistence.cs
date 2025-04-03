@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IDataPersistence 
 {
-	public void LoadData(GameData data);
+	public void LoadData(GameData gameData);
 	
-	public void SaveData(GameData data);
+	public void SaveData(GameData gameData);
 }

@@ -115,4 +115,28 @@ public class SceneLoader : MonoBehaviour
 
 		Time.timeScale = timeScale;
 	}
+
+	public IEnumerator UnloadScene(int oldScene, int currentActiveScene, int timeScale)
+	{
+		UIManager.Instance.OpenMenu(UIManager.Instance.loadingScreen, CursorLockMode.Locked, 1f);
+		
+		var unloadedScene = SceneManager.GetSceneByBuildIndex(oldScene);
+		
+		if (unloadedScene.isLoaded)
+		{
+			yield return SceneManager.UnloadSceneAsync(unloadedScene);
+
+			sceneStates = (SceneStates)currentActiveScene;
+		}
+		
+		UIManager.Instance.loadingIcon.fillAmount = 0f;
+		
+		UIManager.Instance.CloseMenu(UIManager.Instance.loadingScreen, CursorLockMode.None, 1f);
+		
+		SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(currentActiveScene));
+
+		currentScene = currentActiveScene;
+
+		Time.timeScale = timeScale;
+	}
 }

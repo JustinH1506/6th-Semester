@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -8,6 +9,10 @@ public class UIManager : MonoBehaviour
 	
 	public Image loadingIcon;
 
+	public const string master = "Master";
+	public const string music = "Music";
+	public const string sfx = "SFX";
+	
 	[Header("Canvas Groups")]
 	public CanvasGroup loadingScreen;
 	public CanvasGroup mainMenuScreen;
@@ -25,6 +30,12 @@ public class UIManager : MonoBehaviour
 	public Image playerHealthUi;
 	public Image playerStaminaUi;
 	
+	[Space] [Header("Audio")] 
+	[SerializeField] private AudioSource audioSource;
+	[SerializeField] private AudioMixer mixer;
+	[SerializeField] private Slider masterSlider;
+	[SerializeField] private Slider musicSlider;
+	[SerializeField] private Slider sfxSlider;
 	[Space]
 
 	private GameObject player;
@@ -39,6 +50,13 @@ public class UIManager : MonoBehaviour
 		{
 			Destroy(this);
 		}
+	}
+
+	private void Start()
+	{
+		mixer.SetFloat(master, Mathf.Log10(masterSlider.value) * 20);
+		mixer.SetFloat(music, Mathf.Log10(musicSlider.value) * 20);
+		mixer.SetFloat(sfx, Mathf.Log10(sfxSlider.value) * 20);
 	}
 
 	private void Update()
@@ -74,6 +92,15 @@ public class UIManager : MonoBehaviour
 	{
 		StartCoroutine(SceneLoader.Instance.LoadScene(SceneLoader.Instance.currentScene, (int)SceneLoader.Instance.sceneStates, 1)); 
 		CloseMenu(gameOverScreen, CursorLockMode.Locked, 1f);
+	}
+
+	public void BackToMainMenu()
+	{
+		SceneLoader.Instance.sceneStates = SceneLoader.SceneStates.Manager;
+		StartCoroutine(SceneLoader.Instance.UnloadScene(SceneLoader.Instance.currentScene, (int)SceneLoader.Instance.sceneStates, 1));
+		CloseMenu(pauseScreen, CursorLockMode.None, 1f);
+		CloseMenu(inGameUi, CursorLockMode.None, 1f);
+		OpenMenu(mainMenuScreen, CursorLockMode.None, 1f);
 	}
 
 	public void Resume()
@@ -121,5 +148,19 @@ public class UIManager : MonoBehaviour
 	public void Quit()
 	{
 		Application.Quit();
+	}
+	
+	private void OnSliderChanged(Slider slider, string keyName)
+	{
+		PlayerPrefs.SetFloat(keyName, slider.value);
+		
+		switch (keyName)
+		{
+			case master:
+			case music:
+			case sfx:
+				mixer.SetFloat(keyName, Mathf.Log10(slider.value) * 20);
+				break;
+		}
 	}
 }
