@@ -5,10 +5,13 @@ public class CharacterBase : MonoBehaviour
 {
 	public event System.Action<int> OnHealthChanged;
 
+	[Header("Base Variables")]
 	[SerializeField] protected int baseMaxHealth;
 	[SerializeField] protected int baseCurrentHealth;
 	[SerializeField] protected int baseDefense;
 	public int baseAttack;
+	[Space]
+	
 	protected bool isDead = false;
 
 	public int CurrentHealth
@@ -43,7 +46,7 @@ public class CharacterBase : MonoBehaviour
 		}
 	}
 	
-	private void Awake()
+	protected virtual void Awake()
 	{
 		SetCurrentHealth(baseMaxHealth);
 	}

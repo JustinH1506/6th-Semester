@@ -27,7 +27,7 @@ public class PlayerActions : CharacterBase
 	private float inputX;
 	private float inputZ;
 	
-	private void Awake()
+	protected override void Awake()
 	{
 		rb = GetComponent<Rigidbody>();
 		anim = GetComponent<Animator>();

@@ -10,7 +10,7 @@ public class EnemyActions : CharacterBase
 
 	private Animator anim;
 	
-	private void Awake()
+	protected override void Awake()
 	{
 		navMeshAgent = GetComponent<NavMeshAgent>();
 		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;

@@ -14,6 +14,11 @@ public class PlayerDodgeState : PlayerBaseState
 	{
 		CheckSwitchStates();
 	}
+	
+	public override void FixedUpdateState()
+	{
+		
+	}
 
 	public override void ExitState()
 	{

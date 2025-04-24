@@ -2,8 +2,14 @@ using UnityEngine;
 
 public class PlayerStateFactory
 {
+    #region Variables
+    
     private PlayerStateMachine context;
 
+    #endregion
+    
+    #region My Methods
+    
     public PlayerStateFactory(PlayerStateMachine currentContext)
     {
         context = currentContext;
@@ -38,4 +44,11 @@ public class PlayerStateFactory
     {
         return new PlayerStunState(context, this);
     }
+    
+    public PlayerBaseState Heal()
+    {
+        return new PlayerStunState(context, this);
+    }
+    
+    #endregion
 }

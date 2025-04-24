@@ -6,4 +6,5 @@ public class DebugAsset : ScriptableObject
 { 
 	public SceneAsset startScene;
 	public bool useEditorCode;
+	public bool loadGame;
 }

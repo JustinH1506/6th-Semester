@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startScene: {fileID: 102900000, guid: 05be2c37c2d0534449eabf3c57d89f8c, type: 3}
   useEditorCode: 1
+  loadGame: 0

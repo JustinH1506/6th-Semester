@@ -45,6 +45,15 @@ public class GameManager : MonoBehaviour
             
             if (activeSceneName != String.Empty)
             {
+                if (debugAsset.loadGame)
+                {
+                    DataPersistenceManager.Instance.LoadGame();
+                }
+                else
+                {
+                    DataPersistenceManager.Instance.NewGame();
+                }
+                
                 SceneManager.LoadScene(activeSceneName, LoadSceneMode.Additive);
                 
                 UIManager.Instance.OpenMenu(UIManager.Instance.inGameUi, CursorLockMode.Locked, 1f);
@@ -54,7 +63,6 @@ public class GameManager : MonoBehaviour
         {
             UIManager.Instance.OpenMenu(UIManager.Instance.mainMenuScreen, CursorLockMode.None, 1f);
         }
-        
 #endif
     }
 }

@@ -1,7 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,6 +8,8 @@ public class EnemyStateMachine : CharacterBase, IDataPersistence
 	
 	private EnemyBaseState currentState;
 	private EnemyStateFactory states;
+	
+	public bool hasTarget;
 	
 	public EnemyBaseState CurrentState { get => currentState;
 		set => currentState = value;
@@ -28,9 +27,15 @@ public class EnemyStateMachine : CharacterBase, IDataPersistence
 
 	private Animator anim;
 	
-	[SerializeField] private float distanceThreshold = 0f;
+	[SerializeField] private float followDistance = 0f;
+	[SerializeField] private float attackDistance = 0f;
+	[SerializeField] private float patrolDistance = 0f;
 
 	[SerializeField] private Transform[] checkPoints;
+	
+	[SerializeField] private float angleViewField = 0;
+	
+	[SerializeField] private LayerMask layerCovers = 0;
 	
 	private int currentPoint = 0;
 	
@@ -57,11 +62,17 @@ public class EnemyStateMachine : CharacterBase, IDataPersistence
 	public int CurrentPoint { get => currentPoint;
 		set => currentPoint = value;
 	}
-	
-	public float DistanceThreshold => distanceThreshold;
 
+	public float FollowDistance => followDistance;
+	public float AttackDistance => attackDistance;
+	public float PatrolDistance => patrolDistance;
+	
 	public bool GotHit { get => gotHit;
 		set => gotHit = value;
+	}
+	
+	public bool IsDead { get => isDead;
+		set => isDead = value;
 	}
 	
 	#endregion
@@ -80,8 +91,9 @@ public class EnemyStateMachine : CharacterBase, IDataPersistence
 	
 	#region Methods
 	
-	private void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
 		data = new Data();
 		
 		navMeshAgent = GetComponent<NavMeshAgent>();
@@ -145,6 +157,48 @@ public class EnemyStateMachine : CharacterBase, IDataPersistence
 			
 			NavMeshAgent.destination = CheckPoints[CurrentPoint].position;
 		}
+	}
+	
+	public IEnumerator DetectPlayer()
+	{
+		while (true)
+		{
+			yield return new WaitForSeconds(0.1f);
+
+			Vector3 direction = PlayerTransform.transform.position - transform.position;
+			float distance = DistanceBetweenPlayer();
+			float targetAngle = Vector3.Angle(transform.forward, direction);
+			
+			bool isNotSeen = targetAngle < angleViewField && IsCharacterCovered(direction, distance);
+			
+			if (!isNotSeen)
+			{
+				hasTarget = true;
+			}
+			else
+			{
+				hasTarget = false;
+			}
+		}
+	}
+	
+	/// <summary>
+	/// Start a Raycast and if it hits we return true.
+	/// </summary>
+	bool IsCharacterCovered(Vector3 targetDirection, float distanceToTarget)
+	{
+		RaycastHit[] hits = new RaycastHit[2];
+
+		Ray ray = new Ray(transform.position, targetDirection);
+
+		int amountOffHits = Physics.RaycastNonAlloc(ray, hits, distanceToTarget, layerCovers);
+
+		if (amountOffHits > 0)
+		{
+			return true;
+		}
+
+		return false;
 	}
 	
 	#endregion

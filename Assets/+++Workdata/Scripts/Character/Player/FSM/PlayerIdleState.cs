@@ -2,8 +2,13 @@ using UnityEngine;
 
 public class PlayerIdleState : PlayerBaseState
 {
+	#region Variables
+	
 	public PlayerIdleState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) :base(currentContext, playerStateFactory){}
 	
+	#endregion
+	
+	#region My Methods
 	
 	public override void EnterState()
 	{
@@ -16,6 +21,12 @@ public class PlayerIdleState : PlayerBaseState
 		ctx.GetCurrentStamina();
 		CheckSwitchStates();
 	}
+	
+	public override void FixedUpdateState()
+	{
+		
+	}
+	
 	public override void ExitState(){}
 
 	public override void CheckSwitchStates()
@@ -38,4 +49,6 @@ public class PlayerIdleState : PlayerBaseState
 		}
 	}
 	public override void InitializeSubStates(){}
+	
+	#endregion
 }

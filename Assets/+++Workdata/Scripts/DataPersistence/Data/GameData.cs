@@ -14,8 +14,8 @@ public class GameData
     
     public GameData()
     {
-        Vector3 playerPosition = Vector3.zero;
-        int playerHp = 250;
+        playerPosition = Vector3.zero;
+        playerHp = 250;
         enemyPositionByGuid = new SerializableDictionary<string, EnemyStateMachine.Data>();
     }
     

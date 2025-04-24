@@ -2,8 +2,13 @@ using UnityEngine;
 
 public class PlayerWalkState : PlayerBaseState
 {
+	#region Variables
+	
 	public PlayerWalkState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) :base(currentContext, playerStateFactory){}
 	
+	#endregion
+	
+	#region My Methods
 	public override void EnterState( )
 	{
 		ctx.Anim.SetBool( "IsMoving", true );
@@ -14,6 +19,11 @@ public class PlayerWalkState : PlayerBaseState
 		ctx.GetCurrentStamina();
 		ctx.HandleMovement();
 		CheckSwitchStates();
+	}
+	
+	public override void FixedUpdateState()
+	{
+		
 	}
 
 	public override void ExitState()
@@ -43,4 +53,6 @@ public class PlayerWalkState : PlayerBaseState
 		}
 	}
 	public override void InitializeSubStates(){}
+	
+	#endregion
 }

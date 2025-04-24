@@ -1,6 +1,4 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.ProBuilder;
 
 public class EnemyAttackState : EnemyBaseState
 {
@@ -33,17 +31,17 @@ public class EnemyAttackState : EnemyBaseState
 			return;
 		}
 		
-		if (ctx.DistanceBetweenPlayer() < 3)
+		if (ctx.DistanceBetweenPlayer() < ctx.FollowDistance)
 		{
-			while (waitCounter > 0.05f)
-			{
-				waitCounter -= Time.deltaTime;
-				return;
-			}
+			// while (waitCounter > 0.05f)
+			// {
+			// 	waitCounter -= Time.deltaTime;
+			// 	return;
+			// }
 			
 			SwitchStates(factory.Follow());
 		}
-		else
+		else if(ctx.DistanceBetweenPlayer() > ctx.PatrolDistance)
 		{
 			SwitchStates(factory.Patrol());
 		}
@@ -55,7 +53,6 @@ public class EnemyAttackState : EnemyBaseState
       
 		Vector3 direction = (turnTowardNavSteeringTarget - ctx.transform.position).normalized;
 		Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-		
 		
 		ctx.transform.rotation = Quaternion.Slerp(ctx.transform.rotation, lookRotation, Time.deltaTime * 500);
 	}

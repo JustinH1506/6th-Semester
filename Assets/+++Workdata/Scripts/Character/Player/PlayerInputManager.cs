@@ -10,13 +10,21 @@ public class PlayerInputManager : MonoBehaviour
 	
 	#endregion
 
-	#region Methods
+	#region Unity Methods
+	
+	/// <summary>
+	/// Creates PlayerInput.
+	/// Gets PlayerStateMachine. 
+	/// </summary>
 	private void Awake()
 	{
 		playerInput = new PlayerInput();
 		playerStateMachine = GetComponent<PlayerStateMachine>();
 	}
 
+	/// <summary>
+	/// Enables all Inputs for the Player.
+	/// </summary>
 	private void OnEnable()
 	{
 		playerInput.Enable();
@@ -32,6 +40,9 @@ public class PlayerInputManager : MonoBehaviour
 		playerInput.Player.Dodge.performed += playerStateMachine.Dodge;
 	}
 
+	/// <summary>
+	/// Disables all Inputs for the Player.
+	/// </summary>
 	private void OnDisable()
 	{
 		playerInput.Disable();
@@ -46,5 +57,6 @@ public class PlayerInputManager : MonoBehaviour
 		
 		playerInput.Player.Dodge.performed -= playerStateMachine.Dodge;
 	}
+	
 	#endregion
 }

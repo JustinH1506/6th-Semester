@@ -16,6 +16,12 @@ public class PlayerRunState : PlayerBaseState
 		ctx.Stamina -= Time.deltaTime * ctx.RunCost;
 		CheckSwitchStates();
 	}
+	
+	public override void FixedUpdateState()
+	{
+		
+	}
+	
 	public override void ExitState()
 	{
 		ctx.Anim.SetBool( "IsSprinting", false );

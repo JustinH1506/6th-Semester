@@ -13,7 +13,7 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
     #region States
     
     private PlayerBaseState currentState;
-    public PlayerStateFactory states;
+    private PlayerStateFactory states;
     
     public PlayerBaseState CurrentState { get => currentState;
 	    set => currentState = value;
@@ -21,11 +21,16 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
     
     #endregion
     
+    #region Camera
+    
     [SerializeField] CinemachineFreeLook cinemachineFreeLook;
+    
+    #endregion
     
     #region Movement Variabels
     
     [Header("Movement Variables"), Tooltip("Max movement speed during walking.")]
+    
     [SerializeField] private float maxMoveSpeed = 0;
     [SerializeField] private float maxSprintMoveSpeed = 0;
     [SerializeField] private float rotationSpeed = 0f;
@@ -37,10 +42,14 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
     #endregion
 
     #region Stamina
-
+    
+    [Header("Stamina Variables"), Tooltip("Variables for the Stamina System.")]
+    [SerializeField] private float staminaRecovery = 5f;
+    [SerializeField] private float maxStamina = 50f;
     private float currentStamina = 0f;
     private float runCost = 5f;
-    [SerializeField] private float maxStamina = 50f;
+    
+    [Space]
     
     #endregion
     
@@ -80,6 +89,9 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 	    set => canTurn = value;
     }
     
+    public float InputZ => inputZ;
+    public float InputX => inputX;
+    
     #endregion
 
     #region Attack
@@ -104,12 +116,13 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
     public Rigidbody Rb => rb;
 
     #endregion
-    
+
+    #region Animator
+
     public Animator Anim => anim;
 
-    public float InputZ => inputZ;
-    public float InputX => inputX;
-
+    #endregion
+    
     [Space]
     
     #endregion
@@ -124,8 +137,15 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 	#endregion
 	
 	#region Methods
-    private void Awake()
+	
+	#region Unity Methods
+	
+	/// <summary>
+	/// Sets everything up and gets us in the Idle state at the start
+	/// </summary>
+    protected override void Awake()
     {
+	    base.Awake();
 	    states = new PlayerStateFactory(this);
 	    currentState = states.Idle();
 	    currentState.EnterState();
@@ -139,39 +159,45 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 	    moveSpeed = maxMoveSpeed;
     }
     
+    /// <summary>
+    /// When Enabled enables Health and Stamina Action
+    /// </summary>
     private void OnEnable()
     {
 	    OnRegisterCurrentHealth(HealthChanged, true);
 	    OnRegisterCurrentStamina(StaminaChanged, true);
     }
+    
+    /// <summary>
+    /// When Disabled disables Health and Stamina Action
+    /// </summary>
     private void OnDisable()
     {
 	    OnHealthChanged -= HealthChanged;
 	    onStaminaChanged -= StaminaChanged;
     }
 
-    private void FixedUpdate()
+    /// <summary>
+    /// Calls the UpdateState from the Current state
+    /// </summary>
+    private void Update()
     {
 	    currentState.UpdateState();
     }
 
-    public void LoadData(GameData gameData)
+    private void FixedUpdate()
     {
-	    transform.position = gameData.playerPosition;
-	    CurrentHealth = gameData.playerHp;
-	    
-	    cinemachineFreeLook.ForceCameraPosition(gameData.cameraPosition, gameData.cameraRotation);
+	    currentState.FixedUpdateState();
     }
 
-    public void SaveData(GameData gameData)
-    {
-	    gameData.playerPosition = transform.position;
-	    gameData.playerHp = CurrentHealth;
-	    
-	    gameData.cameraPosition = cinemachineFreeLook.transform.position;
-	    gameData.cameraRotation = cinemachineFreeLook.transform.rotation;
-    }
+    #endregion
 
+    #region My Methods
+    
+    /// <summary>
+    /// Reads the input and sets the moving animation
+    /// </summary>
+    /// <param name="context"></param>
     public void Move(InputAction.CallbackContext context)
     {
 	    inputX = context.ReadValue<Vector3>().x;
@@ -188,6 +214,9 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 	    }
     }
 
+    /// <summary>
+    /// Handles how the Character moves.
+    /// </summary>
     public void HandleMovement()
     {
 	    Vector3 cameraRelativeMovement =  HandleCameraRelative();
@@ -197,6 +226,11 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 	    rb.linearVelocity = new Vector3(cameraRelativeMovement.x * moveSpeed, rb.linearVelocity.y, cameraRelativeMovement.z * moveSpeed);
     }
 
+    /// <summary>
+    /// Changes the characters Rotation depending on Input.
+    /// </summary>
+    /// <param name="cameraRelativeMovement"></param>
+    /// <param name="rotateSpeed"></param>
     public void HandleRotation(Vector3 cameraRelativeMovement, float rotateSpeed)
     {
 	    if (HandleCameraRelative() != Vector3.zero)
@@ -205,6 +239,10 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 	    }
     }
 
+    /// <summary>
+    /// Handles the movement based on the cameras forward. 
+    /// </summary>
+    /// <returns></returns>
     public Vector3 HandleCameraRelative()
     {
 	    Vector3 cameraForward = Camera.main.transform.forward;
@@ -224,6 +262,10 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 	    return cameraRelativeMovement;
     }
 
+    /// <summary>
+    /// Starts the Attack when the Player has enough stamina. 
+    /// </summary>
+    /// <param name="context"></param>
     public void Attack(InputAction.CallbackContext context)
     {
 	    if (currentStamina > 0.05f)
@@ -235,6 +277,10 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 	    }
     }
     
+    /// <summary>
+    /// Lets the Player sprint. 
+    /// </summary>
+    /// <param name="context"></param>
     public void Sprint(InputAction.CallbackContext context)
     {
 	    if (!isSprinting)
@@ -251,20 +297,31 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 	    }
     }
 
+    /// <summary>
+    /// Lets the Player dodge. 
+    /// </summary>
+    /// <param name="context"></param>
     public void Dodge(InputAction.CallbackContext context)
     {
 	    isDodging = true;
     }
 
+    /// <summary>
+    /// Recovers Stamina over time. 
+    /// </summary>
     public void GetCurrentStamina()
     {
 	    if (currentStamina < 50f)
 	    {
-			Stamina += Time.deltaTime * runCost;
+			Stamina += Time.deltaTime * staminaRecovery;
 	    }
     }
 
-    public void SetCurrentStamina(float newStamina)
+    /// <summary>
+    /// Sets the stamina when the value got changed. 
+    /// </summary>
+    /// <param name="newStamina"></param>
+    private void SetCurrentStamina(float newStamina)
     {
 	    if (newStamina > maxStamina)
 		    newStamina = maxStamina;
@@ -277,21 +334,38 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 	    }
     }
 
+    /// <summary>
+    /// Amount of Stamina used when attacking. 
+    /// </summary>
     public void AttackStaminaUse()
     {
 	    Stamina -= runCost;
     }
     
+    /// <summary>
+    /// Changed the Player health ui based on the current player health.
+    /// </summary>
+    /// <param name="newHealth"></param>
     private void HealthChanged(int newHealth)
     {
 	    UIManager.Instance.playerHealthUi.fillAmount = (float)newHealth / baseMaxHealth;
     }
 
+    /// <summary>
+    /// Changes the Player Stamina ui based on the current stamina
+    /// </summary>
+    /// <param name="newStamina"></param>
     private void StaminaChanged(float newStamina)
     {
 	    UIManager.Instance.playerStaminaUi.fillAmount = newStamina / maxStamina;
     }
 
+    /// <summary>
+    /// Subscribes onStaminaChanged to callback.
+    /// calls currentStamina method.
+    /// </summary>
+    /// <param name="callback"></param>
+    /// <param name="getInstantCallback"></param>
     private void OnRegisterCurrentStamina(Action<float> callback, bool getInstantCallback = false)
     {
 	    onStaminaChanged += callback;
@@ -299,11 +373,17 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 		    callback(currentStamina);
     }
 
+    /// <summary>
+    /// changes canTurn bool to the opposite of what it curretnly is. 
+    /// </summary>
     public void ChangeTurnState()
     {
 	    canTurn = !canTurn;
     }
 
+    /// <summary>
+    /// Makes the player invulnerable. 
+    /// </summary>
     public void ChangeTag()
     {
 	    if (!CompareTag("Invulnerable"))
@@ -315,6 +395,37 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 		    tag = "Player";
 	    }
     }
+    
+    #endregion
+
+    #region Save Methods
+    
+    /// <summary>
+    /// Loads data from save file. 
+    /// </summary>
+    /// <param name="gameData"></param>
+    public void LoadData(GameData gameData)
+    {
+	    transform.position = gameData.playerPosition;
+	    CurrentHealth = gameData.playerHp;
+	    
+	    cinemachineFreeLook.ForceCameraPosition(gameData.cameraPosition, gameData.cameraRotation);
+    }
+
+    /// <summary>
+    /// Save data into save file. 
+    /// </summary>
+    /// <param name="gameData"></param>
+    public void SaveData(GameData gameData)
+    {
+	    gameData.playerPosition = transform.position;
+	    gameData.playerHp = CurrentHealth;
+	    
+	    gameData.cameraPosition = cinemachineFreeLook.transform.position;
+	    gameData.cameraRotation = cinemachineFreeLook.transform.rotation;
+    }
+    
+    #endregion
     
     #endregion
 }
