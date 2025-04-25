@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class PlayerAttackState : PlayerBaseState
+public class PlayerAttackSecondState : PlayerBaseState
 {
-	public PlayerAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) :base(currentContext, playerStateFactory){}
+	public PlayerAttackSecondState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) :base(currentContext, playerStateFactory){}
 	
 	public override void EnterState()
 	{
-		ctx.Anim.SetBool("IsAttacking", false);
+		ctx.Anim.Play(ctx.anims.AttackAnim02);
 	}
 
 	public override void UpdateState()
@@ -25,21 +25,22 @@ public class PlayerAttackState : PlayerBaseState
 	{
 		ctx.CanTurn = true;
 		ctx.AttackAmount = 0;
-		ctx.Anim.SetInteger("CurrentAttack", ctx.AttackAmount);
 	}
 
 	public override void CheckSwitchStates()
 	{
-		if (ctx.Anim.GetCurrentAnimatorStateInfo(0).IsName("Attack01") ||  ctx.Anim.GetCurrentAnimatorStateInfo(0).IsName("Attack02") || ctx.Anim.GetCurrentAnimatorStateInfo(0).IsName("Attack03"))
+		if (ctx.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
 		{
 			return;
 		}
 		
 		ctx.IsAttacking = false;
-		ctx.Anim.SetBool("IsAttacking", false);
 
-		
-		if (ctx.IsMoving && ctx.IsSprinting)
+		if (ctx.AttackAmount >= 2)
+		{
+			
+		}
+		else if (ctx.IsMoving && ctx.IsSprinting)
 		{
 			SwitchStates(factory.Run());
 		}

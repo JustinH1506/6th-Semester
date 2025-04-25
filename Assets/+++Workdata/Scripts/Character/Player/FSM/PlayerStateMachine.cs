@@ -64,6 +64,7 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
     #region Animations
     [Header("Animations")]
     private Animator anim;
+    public PlayerAnimationFactory anims;
     
     #endregion
     
@@ -96,17 +97,21 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 
     #region Attack
 
-    public int AttackAmount {get => attackAmount;
+    public int AttackAmount 
+    {
+	    get => attackAmount;
 	    set => attackAmount = value;
     }
-    public bool IsAttacking {get => isAttacking;
+    public bool IsAttacking 
+    {
+	    get => isAttacking;
 	    set => isAttacking = value;
     }
 
     public bool IsDodging
     {
 	    get => isDodging;
-	    set => isAttacking = value;
+	    set => isDodging = value;
     }
 
     #endregion
@@ -147,10 +152,11 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
     {
 	    base.Awake();
 	    states = new PlayerStateFactory(this);
+	    anims = new PlayerAnimationFactory();
+	    anim  = GetComponent<Animator>();
 	    currentState = states.Idle();
 	    currentState.EnterState();
 	    rb = GetComponent<Rigidbody>();
-	    anim  = GetComponent<Animator>();
 	    currentStamina = maxStamina;
     }
 
@@ -205,12 +211,10 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 	    if (inputX != 0 || inputZ != 0)
 	    {
 		    isMoving = true;
-		    Anim.SetBool("IsMoving", true);
 	    }
 	    else
 	    {
 		    isMoving = false;
-		    Anim.SetBool("IsMoving", false);
 	    }
     }
 
@@ -222,8 +226,10 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 	    Vector3 cameraRelativeMovement =  HandleCameraRelative();
 	    
 	    HandleRotation(cameraRelativeMovement, rotationSpeed);
+
+	    Vector3 movement = new Vector3(cameraRelativeMovement.x * moveSpeed, rb.linearVelocity.y, cameraRelativeMovement.z * moveSpeed);
 		
-	    rb.linearVelocity = new Vector3(cameraRelativeMovement.x * moveSpeed, rb.linearVelocity.y, cameraRelativeMovement.z * moveSpeed);
+	    rb.linearVelocity = movement;
     }
 
     /// <summary>
@@ -237,6 +243,24 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 	    {
 		    transform.forward = Vector3.Slerp(transform.forward, cameraRelativeMovement.normalized, Time.deltaTime * rotateSpeed);
 	    }
+    }
+    
+    public void HandleDodge()
+    {
+	    Vector3 cameraRelativeMovement =  HandleCameraRelative();
+
+	    Vector3 dodgeDirection; 
+	    
+	    if (cameraRelativeMovement != Vector3.zero)
+	    {
+		    dodgeDirection = new Vector3(cameraRelativeMovement.x * 3, rb.linearVelocity.y, cameraRelativeMovement.z * 3);
+	    }
+	    else
+	    {
+		    dodgeDirection = transform.forward * 3;
+	    }
+	    
+	    rb.AddForce(dodgeDirection * runCost, ForceMode.VelocityChange);
     }
 
     /// <summary>
@@ -270,10 +294,8 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
     {
 	    if (currentStamina > 0.05f)
 	    {
-		    anim.SetBool("IsAttacking", true);
 		    isAttacking = true;
 		    attackAmount++;
-		    anim.SetInteger("CurrentAttack", attackAmount);
 	    }
     }
     
@@ -286,13 +308,11 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 	    if (!isSprinting)
 	    {
 		    isSprinting = true;
-		    Anim.SetBool("IsSprinting", true);
 		    moveSpeed = maxSprintMoveSpeed;
 	    }
 	    else
 	    {
 		    isSprinting = false;
-		    Anim.SetBool("IsSprinting", false);
 		    moveSpeed = maxMoveSpeed;
 	    }
     }
@@ -303,7 +323,10 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
     /// <param name="context"></param>
     public void Dodge(InputAction.CallbackContext context)
     {
-	    isDodging = true;
+	    if (context.performed)
+	    {
+			isDodging = true;
+	    }
     }
 
     /// <summary>

@@ -11,24 +11,24 @@ public class PlayerWalkState : PlayerBaseState
 	#region My Methods
 	public override void EnterState( )
 	{
-		ctx.Anim.SetBool( "IsMoving", true );
+		ctx.Anim.Play(ctx.anims.WalkAnim);
 	}
 
 	public override void UpdateState()
+	{
+		
+	}
+	
+	public override void FixedUpdateState()
 	{
 		ctx.GetCurrentStamina();
 		ctx.HandleMovement();
 		CheckSwitchStates();
 	}
-	
-	public override void FixedUpdateState()
-	{
-		
-	}
 
 	public override void ExitState()
 	{
-		
+		ctx.Anim.StopPlayback();
 	}
 
 	public override void CheckSwitchStates()
@@ -45,7 +45,6 @@ public class PlayerWalkState : PlayerBaseState
 		else if (!ctx.IsMoving)
 		{
 			SwitchStates(factory.Idle());
-			ctx.Anim.SetBool( "IsMoving", false );
 		}
 		else if (ctx.IsMoving && ctx.IsSprinting)
 		{

@@ -34,6 +34,11 @@ public class PlayerStateFactory
     {
         return new PlayerAttackState(context, this);
     }
+    
+    public PlayerBaseState AttackSecond()
+    {
+        return new PlayerAttackSecondState(context, this);
+    }
 
     public PlayerBaseState Dodge()
     {

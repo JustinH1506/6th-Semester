@@ -12,7 +12,7 @@ public class PlayerHealState : PlayerBaseState
 
 	public override void UpdateState()
 	{
-		
+		CheckSwitchStates();
 	}
 	
 	public override void FixedUpdateState()

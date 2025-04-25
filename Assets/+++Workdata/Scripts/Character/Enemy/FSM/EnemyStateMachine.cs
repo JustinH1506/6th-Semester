@@ -71,9 +71,7 @@ public class EnemyStateMachine : CharacterBase, IDataPersistence
 		set => gotHit = value;
 	}
 	
-	public bool IsDead { get => isDead;
-		set => isDead = value;
-	}
+	
 	
 	#endregion
 

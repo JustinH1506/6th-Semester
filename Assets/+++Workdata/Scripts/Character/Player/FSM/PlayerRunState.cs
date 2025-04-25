@@ -6,20 +6,19 @@ public class PlayerRunState : PlayerBaseState
 	
 	public override void EnterState( )
 	{
-		ctx.Anim.SetBool( "IsMoving", true );
-		ctx.Anim.SetBool( "IsSprinting", true );
+		ctx.Anim.CrossFade(ctx.anims.RunAnim, 0.01f);
 	}
 
 	public override void UpdateState()
 	{
-		ctx.HandleMovement();
-		ctx.Stamina -= Time.deltaTime * ctx.RunCost;
-		CheckSwitchStates();
+		
 	}
 	
 	public override void FixedUpdateState()
 	{
-		
+		ctx.HandleMovement();
+		ctx.Stamina -= Time.deltaTime * ctx.RunCost;
+		CheckSwitchStates();
 	}
 	
 	public override void ExitState()

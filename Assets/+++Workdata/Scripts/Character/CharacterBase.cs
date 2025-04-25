@@ -13,6 +13,10 @@ public class CharacterBase : MonoBehaviour
 	[Space]
 	
 	protected bool isDead = false;
+	
+	public bool IsDead { get => isDead;
+		set => isDead = value;
+	}
 
 	public int CurrentHealth
 	{
@@ -37,10 +41,12 @@ public class CharacterBase : MonoBehaviour
 		{
 			if (gameObject.CompareTag("Player"))
 			{
+				IsDead = true;
 				UIManager.Instance.OpenMenu(UIManager.Instance.gameOverScreen, CursorLockMode.None, 0f);
 			}
 			else
 			{
+				IsDead = true;
 				gameObject.SetActive(false);
 			}
 		}

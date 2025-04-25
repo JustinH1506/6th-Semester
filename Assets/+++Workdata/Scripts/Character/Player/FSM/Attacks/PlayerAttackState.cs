@@ -1,18 +1,18 @@
+using NUnit.Framework.Internal.Execution;
 using UnityEngine;
 
-public class PlayerDodgeState : PlayerBaseState
+public class PlayerAttackState : PlayerBaseState
 {
-	public PlayerDodgeState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) :base(currentContext, playerStateFactory){}
-
+	public PlayerAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) :base(currentContext, playerStateFactory){}
 	
 	public override void EnterState()
 	{
-		ctx.Anim.CrossFade(ctx.anims.DodgeAnim, 0.01f);
-		ctx.HandleDodge();
+		ctx.Anim.CrossFade(ctx.anims.AttackAnim01, 0.01f);
 	}
 
 	public override void UpdateState()
 	{
+		ctx.HandleRotation(ctx.HandleCameraRelative(), 500f);
 		CheckSwitchStates();
 	}
 	
@@ -23,7 +23,8 @@ public class PlayerDodgeState : PlayerBaseState
 
 	public override void ExitState()
 	{
-		
+		ctx.CanTurn = true;
+		ctx.AttackAmount = 0;
 	}
 
 	public override void CheckSwitchStates()
@@ -32,10 +33,14 @@ public class PlayerDodgeState : PlayerBaseState
 		{
 			return;
 		}
-
-		ctx.IsDodging = false;
 		
-		if (ctx.IsMoving && ctx.IsSprinting)
+		ctx.IsAttacking = false;
+		
+		if (ctx.AttackAmount >= 2)
+		{
+			SwitchStates(factory.AttackSecond());
+		}
+		else if (ctx.IsMoving && ctx.IsSprinting)
 		{
 			SwitchStates(factory.Run());
 		}
@@ -43,10 +48,11 @@ public class PlayerDodgeState : PlayerBaseState
 		{
 			SwitchStates(factory.Walk());
 		}
-		else
+		else if(!ctx.IsAttacking)
 		{
 			SwitchStates(factory.Idle());
 		}
 	}
+	
 	public override void InitializeSubStates(){}
 }

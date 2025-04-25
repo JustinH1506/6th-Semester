@@ -12,19 +12,19 @@ public class PlayerIdleState : PlayerBaseState
 	
 	public override void EnterState()
 	{
-		
+		Debug.Log("Entering Idle State");
+		ctx.Anim.CrossFade(ctx.anims.IdleAnim, 0.2f);
 	}
 
 	public override void UpdateState()
 	{
 		ctx.HandleRotation(ctx.HandleCameraRelative(), ctx.RotationSpeed);
-		ctx.GetCurrentStamina();
 		CheckSwitchStates();
 	}
 	
 	public override void FixedUpdateState()
 	{
-		
+		ctx.GetCurrentStamina();
 	}
 	
 	public override void ExitState(){}
