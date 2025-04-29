@@ -1,18 +1,18 @@
 using UnityEngine;
 
-public class PlayerDodgeState : PlayerBaseState
+public class PlayerAttackThirdState : PlayerBaseState
 {
-	public PlayerDodgeState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) :base(currentContext, playerStateFactory){}
-
+	public PlayerAttackThirdState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) :base(currentContext, playerStateFactory){}
 	
 	public override void EnterState()
 	{
-		ctx.Anim.CrossFade(PlayerAnimationFactory.DodgeAnim, 0.01f);
-		ctx.HandleDodge();
+		ctx.Anim.Play(PlayerAnimationFactory.AttackAnim03);
 	}
 
 	public override void UpdateState()
 	{
+		ctx.HandleRotation(ctx.HandleCameraRelative(), 500f);
+		
 		CheckSwitchStates();
 	}
 	
@@ -23,18 +23,19 @@ public class PlayerDodgeState : PlayerBaseState
 
 	public override void ExitState()
 	{
-		
+		ctx.CanTurn = true;
+		ctx.AttackAmount = 0;
 	}
 
 	public override void CheckSwitchStates()
 	{
-		if (ctx.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+		if (ctx.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
 		{
 			return;
 		}
-
-		ctx.IsDodging = false;
 		
+		ctx.IsAttacking = false;
+
 		if (ctx.IsMoving && ctx.IsSprinting)
 		{
 			SwitchStates(factory.Run());
@@ -43,7 +44,7 @@ public class PlayerDodgeState : PlayerBaseState
 		{
 			SwitchStates(factory.Walk());
 		}
-		else
+		else if(!ctx.IsAttacking)
 		{
 			SwitchStates(factory.Idle());
 		}

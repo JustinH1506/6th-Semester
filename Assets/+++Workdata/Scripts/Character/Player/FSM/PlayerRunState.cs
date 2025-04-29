@@ -6,7 +6,7 @@ public class PlayerRunState : PlayerBaseState
 	
 	public override void EnterState( )
 	{
-		ctx.Anim.CrossFade(ctx.anims.RunAnim, 0.01f);
+		ctx.Anim.CrossFade(PlayerAnimationFactory.RunAnim, 0.01f);
 	}
 
 	public override void UpdateState()
@@ -23,7 +23,7 @@ public class PlayerRunState : PlayerBaseState
 	
 	public override void ExitState()
 	{
-		ctx.Anim.SetBool( "IsSprinting", false );
+		
 	}
 
 	public override void CheckSwitchStates()

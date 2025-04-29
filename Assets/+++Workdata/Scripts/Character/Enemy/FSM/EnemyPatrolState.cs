@@ -8,6 +8,8 @@ public class EnemyPatrolState : EnemyBaseState
 
     public override void EnterState()
     {
+        ctx.Anim.Play(EnemyAnimationFactory.Walk);
+
         ctx.NavMeshAgent.destination = ctx.CheckPoints[ctx.CurrentPoint].position;
         
         ctx.StartCoroutine(ctx.DetectPlayer());
@@ -16,7 +18,10 @@ public class EnemyPatrolState : EnemyBaseState
     public override void UpdateState()
     {
         CheckSwitchStates();
-        
+    }
+    
+    public override void FixedUpdateState()
+    {
         if (ctx.NavMeshAgent.remainingDistance <= 0.5f)
         {
             NextPoint();

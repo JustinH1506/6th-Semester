@@ -8,37 +8,39 @@ public class EnemyAttackState : EnemyBaseState
 	private float maxWaitCounter = 2f;
 	public override void EnterState()
 	{
+		ctx.Anim.Play(EnemyAnimationFactory.Attack);
 		FaceTarget();
 		waitCounter = maxWaitCounter;
+		ctx.AttackCooldown = ctx.MaxAttackCooldown;
 	}
 
 	public override void UpdateState()
 	{
 		CheckSwitchStates();
-		ctx.Anim.SetFloat("Distance", Vector3.Distance(ctx.transform.position, ctx.PlayerTransform.position));
+	}
+
+	public override void FixedUpdateState()
+	{
+		
 	}
 
 	public override void ExitState()
 	{
 		waitCounter = maxWaitCounter;
 		ctx.NavMeshAgent.isStopped = false;
+
+		ctx.StartCoroutine(ctx.HandleAttackCooldown());
 	}
 
 	public override void CheckSwitchStates()
 	{
-		if (ctx.Anim.GetCurrentAnimatorStateInfo(0).IsName("Attack01"))
+		if (ctx.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
 		{
 			return;
 		}
 		
 		if (ctx.DistanceBetweenPlayer() < ctx.FollowDistance)
 		{
-			// while (waitCounter > 0.05f)
-			// {
-			// 	waitCounter -= Time.deltaTime;
-			// 	return;
-			// }
-			
 			SwitchStates(factory.Follow());
 		}
 		else if(ctx.DistanceBetweenPlayer() > ctx.PatrolDistance)

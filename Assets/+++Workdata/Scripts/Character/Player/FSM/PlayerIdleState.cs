@@ -12,8 +12,7 @@ public class PlayerIdleState : PlayerBaseState
 	
 	public override void EnterState()
 	{
-		Debug.Log("Entering Idle State");
-		ctx.Anim.CrossFade(ctx.anims.IdleAnim, 0.2f);
+		ctx.Anim.CrossFade(PlayerAnimationFactory.IdleAnim, 0.1f);
 	}
 
 	public override void UpdateState()

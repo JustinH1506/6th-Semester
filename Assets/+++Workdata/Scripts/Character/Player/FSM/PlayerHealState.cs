@@ -7,7 +7,7 @@ public class PlayerHealState : PlayerBaseState
 	
 	public override void EnterState()
 	{
-		ctx.Anim.SetBool("IsHealing", true);
+		
 	}
 
 	public override void UpdateState()

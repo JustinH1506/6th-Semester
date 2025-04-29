@@ -64,7 +64,6 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
     #region Animations
     [Header("Animations")]
     private Animator anim;
-    public PlayerAnimationFactory anims;
     
     #endregion
     
@@ -152,7 +151,6 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
     {
 	    base.Awake();
 	    states = new PlayerStateFactory(this);
-	    anims = new PlayerAnimationFactory();
 	    anim  = GetComponent<Animator>();
 	    currentState = states.Idle();
 	    currentState.EnterState();
@@ -253,11 +251,11 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 	    
 	    if (cameraRelativeMovement != Vector3.zero)
 	    {
-		    dodgeDirection = new Vector3(cameraRelativeMovement.x * 3, rb.linearVelocity.y, cameraRelativeMovement.z * 3);
+		    dodgeDirection = new Vector3(cameraRelativeMovement.x * 5, rb.linearVelocity.y, cameraRelativeMovement.z * 5);
 	    }
 	    else
 	    {
-		    dodgeDirection = transform.forward * 3;
+		    dodgeDirection = transform.forward * 5;
 	    }
 	    
 	    rb.AddForce(dodgeDirection * runCost, ForceMode.VelocityChange);

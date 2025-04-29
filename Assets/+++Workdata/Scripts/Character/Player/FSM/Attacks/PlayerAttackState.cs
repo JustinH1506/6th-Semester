@@ -7,7 +7,7 @@ public class PlayerAttackState : PlayerBaseState
 	
 	public override void EnterState()
 	{
-		ctx.Anim.CrossFade(ctx.anims.AttackAnim01, 0.01f);
+		ctx.Anim.CrossFade(PlayerAnimationFactory.AttackAnim01, 0.01f);
 	}
 
 	public override void UpdateState()
@@ -36,7 +36,7 @@ public class PlayerAttackState : PlayerBaseState
 		
 		ctx.IsAttacking = false;
 		
-		if (ctx.AttackAmount >= 2)
+		if (ctx.AttackAmount > 1)
 		{
 			SwitchStates(factory.AttackSecond());
 		}

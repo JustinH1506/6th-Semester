@@ -6,7 +6,7 @@ public class PlayerStunState : PlayerBaseState
 	
 	public override void EnterState()
 	{
-		ctx.Anim.Play(ctx.anims.HitAnim);
+		ctx.Anim.Play(PlayerAnimationFactory.HitAnim);
 	}
 
 	public override void UpdateState()

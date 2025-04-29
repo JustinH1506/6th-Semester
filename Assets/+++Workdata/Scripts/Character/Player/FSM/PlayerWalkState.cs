@@ -11,7 +11,7 @@ public class PlayerWalkState : PlayerBaseState
 	#region My Methods
 	public override void EnterState( )
 	{
-		ctx.Anim.Play(ctx.anims.WalkAnim);
+		ctx.Anim.Play(PlayerAnimationFactory.WalkAnim);
 	}
 
 	public override void UpdateState()

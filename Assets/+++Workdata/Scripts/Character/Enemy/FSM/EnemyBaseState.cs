@@ -13,6 +13,7 @@ public abstract class EnemyBaseState
     
     public abstract void EnterState();
     public abstract void UpdateState();
+    public abstract void FixedUpdateState();
     public abstract void ExitState();
     public abstract void CheckSwitchStates();
     protected void SwitchStates(EnemyBaseState newState)

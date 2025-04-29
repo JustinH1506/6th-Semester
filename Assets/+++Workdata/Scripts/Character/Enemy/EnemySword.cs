@@ -8,8 +8,7 @@ public class EnemySword : MonoBehaviour
 	{
 		if (other.CompareTag("Player") && !other.GetComponent<PlayerStateMachine>().IsDodging)
 		{
-			other.GetComponent<CharacterBase>().TakeDamage(_enemyActions.baseAttack);
-			other.GetComponent<PlayerStateMachine>().Anim.SetTrigger("GotHit");
+			other.GetComponent<CharacterBase>().TakeDamage(_enemyActions.baseAttack); 
 		}
 	}
 }

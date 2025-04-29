@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -35,11 +36,16 @@ public class EnemyStateMachine : CharacterBase, IDataPersistence
 	
 	[SerializeField] private float angleViewField = 0;
 	
+	[SerializeField] private float maxAttackCooldown = 0;
+	[SerializeField] private float attackCooldown = 0;
+	
 	[SerializeField] private LayerMask layerCovers = 0;
 	
 	private int currentPoint = 0;
 	
 	private bool gotHit = false;
+	
+	private bool canAttack = true;
 
 	private Data data;
 	
@@ -66,9 +72,21 @@ public class EnemyStateMachine : CharacterBase, IDataPersistence
 	public float FollowDistance => followDistance;
 	public float AttackDistance => attackDistance;
 	public float PatrolDistance => patrolDistance;
-	
+	public float MaxAttackCooldown => maxAttackCooldown;
+	public float AttackCooldown
+	{
+		get => attackCooldown; 
+		set => attackCooldown = value;
+	}
+
 	public bool GotHit { get => gotHit;
 		set => gotHit = value;
+	}
+
+	public bool CanAttack
+	{
+		get => canAttack;
+		set => canAttack = value;
 	}
 	
 	
@@ -106,6 +124,11 @@ public class EnemyStateMachine : CharacterBase, IDataPersistence
 	private void Update()
 	{
 		currentState.UpdateState();
+	}
+
+	private void FixedUpdate()
+	{
+		currentState.FixedUpdateState();
 	}
 	
 	private void OnValidate()
@@ -197,6 +220,18 @@ public class EnemyStateMachine : CharacterBase, IDataPersistence
 		}
 
 		return false;
+	}
+
+	public IEnumerator HandleAttackCooldown()
+	{
+		while (attackCooldown > 0.05f)
+		{
+			attackCooldown -= Time.deltaTime;
+
+			yield return null;
+		}
+		
+		CanAttack = true;
 	}
 	
 	#endregion

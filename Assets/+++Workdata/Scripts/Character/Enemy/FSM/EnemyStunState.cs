@@ -6,7 +6,7 @@ public class EnemyStunState : EnemyBaseState
     
 	public override void EnterState()
 	{
-		
+		ctx.Anim.Play(EnemyAnimationFactory.Hit);
 	}
 
 	public override void UpdateState()
@@ -17,6 +17,11 @@ public class EnemyStunState : EnemyBaseState
 		}
 		
 		CheckSwitchStates();
+	}
+
+	public override void FixedUpdateState()
+	{
+		
 	}
 
 	public override void ExitState()

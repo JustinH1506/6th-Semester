@@ -6,7 +6,7 @@ public class PlayerAttackSecondState : PlayerBaseState
 	
 	public override void EnterState()
 	{
-		ctx.Anim.Play(ctx.anims.AttackAnim02);
+		ctx.Anim.Play(PlayerAnimationFactory.AttackAnim02);
 	}
 
 	public override void UpdateState()
@@ -36,9 +36,9 @@ public class PlayerAttackSecondState : PlayerBaseState
 		
 		ctx.IsAttacking = false;
 
-		if (ctx.AttackAmount >= 2)
+		if (ctx.AttackAmount >= 1)
 		{
-			
+			SwitchStates(factory.AttackThird());
 		}
 		else if (ctx.IsMoving && ctx.IsSprinting)
 		{
