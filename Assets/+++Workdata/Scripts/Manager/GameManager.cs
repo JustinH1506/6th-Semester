@@ -9,12 +9,15 @@ public class GameManager : MonoBehaviour
     public enum GameStates
     {
         MainMenu,
-        InGame
+        InGame,
+        InBattle
     }
     
     [Header("Game Variables")]
     
     public static GameManager Instance;
+
+    public int currentAttackingEnemies;
     
     public GameStates gameStates;
     [FormerlySerializedAs("_debug")]
@@ -64,5 +67,25 @@ public class GameManager : MonoBehaviour
             UIManager.Instance.OpenMenu(UIManager.Instance.mainMenuScreen, CursorLockMode.None, 1f);
         }
 #endif
+    }
+
+    public void AddEnemies()
+    {
+        currentAttackingEnemies++;
+        
+        if (currentAttackingEnemies == 0)
+        {
+            gameStates = GameStates.InGame;
+        }
+    }
+
+    public void RemoveEnemies()
+    {
+        currentAttackingEnemies--;
+
+        if (currentAttackingEnemies >= 1)
+        {
+            gameStates = GameStates.InBattle;
+        }
     }
 }

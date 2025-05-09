@@ -11,11 +11,6 @@ public class EnemyStunState : EnemyBaseState
 
 	public override void UpdateState()
 	{
-		while(ctx.Anim.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
-		{
-			return;
-		}
-		
 		CheckSwitchStates();
 	}
 
@@ -26,12 +21,21 @@ public class EnemyStunState : EnemyBaseState
 
 	public override void ExitState()
 	{
-		
+		ctx.GotHit = false;
 	}
 
 	public override void CheckSwitchStates()
 	{
-		if (Vector3.Distance(ctx.transform.position, ctx.PlayerTransform.position) < ctx.FollowDistance)
+		if (ctx.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
+		{
+			return;
+		}
+
+		if (ctx.IsDead)
+		{
+			SwitchStates(factory.Death());
+		}
+		else if (Vector3.Distance(ctx.transform.position, ctx.PlayerTransform.position) < ctx.FollowDistance)
 		{
 			SwitchStates(factory.Follow());
 		}

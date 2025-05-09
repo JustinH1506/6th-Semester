@@ -47,7 +47,6 @@ public class CharacterBase : MonoBehaviour
 			else
 			{
 				IsDead = true;
-				gameObject.SetActive(false);
 			}
 		}
 	}

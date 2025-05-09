@@ -123,6 +123,7 @@ public class EnemyStateMachine : CharacterBase, IDataPersistence
 
 	private void Update()
 	{
+		//HandleAttackCooldown();
 		currentState.UpdateState();
 	}
 
@@ -192,11 +193,11 @@ public class EnemyStateMachine : CharacterBase, IDataPersistence
 			
 			bool isNotSeen = targetAngle < angleViewField && IsCharacterCovered(direction, distance);
 			
-			if (!isNotSeen)
+			if (isNotSeen)
 			{
 				hasTarget = true;
 			}
-			else
+			else if(distance > followDistance)
 			{
 				hasTarget = false;
 			}
@@ -222,16 +223,16 @@ public class EnemyStateMachine : CharacterBase, IDataPersistence
 		return false;
 	}
 
-	public IEnumerator HandleAttackCooldown()
+	public void HandleAttackCooldown()
 	{
-		while (attackCooldown > 0.05f)
+		if (attackCooldown > 0.05f && !canAttack)
 		{
 			attackCooldown -= Time.deltaTime;
-
-			yield return null;
 		}
-		
-		CanAttack = true;
+		else
+		{
+			CanAttack = true;
+		}
 	}
 	
 	#endregion

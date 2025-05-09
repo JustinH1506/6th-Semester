@@ -28,4 +28,9 @@ public class EnemyStateFactory
    {
       return new EnemyStunState(context, this);
    }
+   
+   public EnemyBaseState Death()
+   {
+      return new EnemyStunState(context, this);
+   }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -48,6 +49,7 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
     [SerializeField] private float maxStamina = 50f;
     private float currentStamina = 0f;
     private float runCost = 5f;
+    private float dodgePower = 8;
     
     [Space]
     
@@ -187,6 +189,11 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
     private void Update()
     {
 	    currentState.UpdateState();
+
+	    if (GameManager.Instance.gameStates == GameManager.GameStates.InGame && CurrentHealth < baseMaxHealth)
+	    {
+		    CurrentHealth += (int)Time.deltaTime;
+	    }
     }
 
     private void FixedUpdate()
@@ -251,14 +258,14 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 	    
 	    if (cameraRelativeMovement != Vector3.zero)
 	    {
-		    dodgeDirection = new Vector3(cameraRelativeMovement.x * 5, rb.linearVelocity.y, cameraRelativeMovement.z * 5);
+		    dodgeDirection = new Vector3(cameraRelativeMovement.x * dodgePower * 1.5f, rb.linearVelocity.y, cameraRelativeMovement.z * dodgePower);
 	    }
 	    else
 	    {
-		    dodgeDirection = transform.forward * 5;
+		    dodgeDirection = transform.forward * (dodgePower * 2);
 	    }
 	    
-	    rb.AddForce(dodgeDirection * runCost, ForceMode.VelocityChange);
+	    rb.AddForce(dodgeDirection, ForceMode.VelocityChange);
     }
 
     /// <summary>

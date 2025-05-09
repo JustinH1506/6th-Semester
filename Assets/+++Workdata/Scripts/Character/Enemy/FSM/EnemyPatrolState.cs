@@ -13,6 +13,8 @@ public class EnemyPatrolState : EnemyBaseState
         ctx.NavMeshAgent.destination = ctx.CheckPoints[ctx.CurrentPoint].position;
         
         ctx.StartCoroutine(ctx.DetectPlayer());
+        
+        GameManager.Instance.RemoveEnemies();
     }
 
     public override void UpdateState()

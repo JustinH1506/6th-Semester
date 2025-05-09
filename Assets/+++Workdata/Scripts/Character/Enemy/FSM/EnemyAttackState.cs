@@ -12,6 +12,7 @@ public class EnemyAttackState : EnemyBaseState
 		FaceTarget();
 		waitCounter = maxWaitCounter;
 		ctx.AttackCooldown = ctx.MaxAttackCooldown;
+		//ctx.CanAttack = false;
 	}
 
 	public override void UpdateState()
@@ -28,12 +29,15 @@ public class EnemyAttackState : EnemyBaseState
 	{
 		waitCounter = maxWaitCounter;
 		ctx.NavMeshAgent.isStopped = false;
-
-		ctx.StartCoroutine(ctx.HandleAttackCooldown());
 	}
 
 	public override void CheckSwitchStates()
 	{
+		if (ctx.GotHit)
+		{
+			SwitchStates(factory.Stun());
+		}
+		
 		if (ctx.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
 		{
 			return;
@@ -53,9 +57,13 @@ public class EnemyAttackState : EnemyBaseState
 	{
 		var turnTowardNavSteeringTarget = ctx.NavMeshAgent.steeringTarget;
       
-		Vector3 direction = (turnTowardNavSteeringTarget - ctx.transform.position).normalized;
-		Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-		
-		ctx.transform.rotation = Quaternion.Slerp(ctx.transform.rotation, lookRotation, Time.deltaTime * 500);
+		Vector3 direction = (turnTowardNavSteeringTarget - ctx.transform.position);
+		Vector3 lookDirection = new Vector3(direction.x, 0, direction.z);
+		lookDirection.Normalize();
+
+		if (lookDirection != Vector3.zero)
+		{
+			ctx.transform.forward = Vector3.Slerp(ctx.transform.forward, lookDirection, 500 * Time.deltaTime);
+		}
 	}
 }
