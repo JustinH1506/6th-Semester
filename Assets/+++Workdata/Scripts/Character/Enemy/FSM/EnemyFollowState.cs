@@ -8,7 +8,7 @@ public class EnemyFollowState: EnemyBaseState
 	
 	public override void EnterState()
 	{
-		ctx.Anim.Play(EnemyAnimationFactory.Walk);
+		ctx.Anim.CrossFade(EnemyAnimationFactory.Walk, 0.25f);
 		//GameManager.Instance.AddEnemies();
 	}
 

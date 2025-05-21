@@ -229,6 +229,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "TargetLock",
+            "id": "ed8fe061-edd6-4f80-9f85-d0e49a908bca",
+            "actions": [
+                {
+                    "name": "Lock",
+                    "type": "Button",
+                    "id": "bd458e6c-ab05-4fe1-933a-8e62f51d9e56",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "596f4591-0f46-46d1-9489-f94b25d89350",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lock",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

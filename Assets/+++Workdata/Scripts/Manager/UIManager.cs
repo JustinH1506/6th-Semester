@@ -31,7 +31,7 @@ public class UIManager : MonoBehaviour
 	public Image playerStaminaUi;
 	
 	[Space] [Header("Audio")] 
-	[SerializeField] private AudioSource audioSource;
+	[SerializeField] private AudioSource musicSource;
 	[SerializeField] private AudioMixer mixer;
 	[SerializeField] private Slider masterSlider;
 	[SerializeField] private Slider musicSlider;
@@ -50,6 +50,10 @@ public class UIManager : MonoBehaviour
 		{
 			Destroy(this);
 		}
+		
+		masterSlider.onValueChanged.AddListener(delegate { OnSliderChanged(masterSlider, master);});
+		musicSlider.onValueChanged.AddListener(delegate { OnSliderChanged(musicSlider, music);});
+		sfxSlider.onValueChanged.AddListener(delegate { OnSliderChanged(sfxSlider, sfx);});
 	}
 
 	private void Start()
@@ -67,7 +71,7 @@ public class UIManager : MonoBehaviour
 		}
 		else if(Input.GetKeyDown(KeyCode.Escape) && pauseScreen.alpha >= 1)
 		{
-			CloseMenu(pauseScreen, CursorLockMode.None, 0f);
+			CloseMenu(pauseScreen, CursorLockMode.Locked, 0f);
 		}
 	}
 
@@ -90,8 +94,9 @@ public class UIManager : MonoBehaviour
 
 	public void ReloadGame()
 	{
-		StartCoroutine(SceneLoader.Instance.LoadScene(SceneLoader.Instance.currentScene, (int)SceneLoader.Instance.sceneStates, 1)); 
 		CloseMenu(gameOverScreen, CursorLockMode.Locked, 1f);
+		SceneLoader.Instance.sceneStates = SceneLoader.SceneStates.Level01;
+		StartCoroutine(SceneLoader.Instance.LoadScene((int)SceneLoader.Instance.sceneStates, (int)SceneLoader.Instance.sceneStates, 1)); 
 	}
 
 	public void BackToMainMenu()

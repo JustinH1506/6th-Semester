@@ -43,6 +43,7 @@ public class CharacterBase : MonoBehaviour
 			{
 				IsDead = true;
 				UIManager.Instance.OpenMenu(UIManager.Instance.gameOverScreen, CursorLockMode.None, 0f);
+				baseCurrentHealth = 1;
 			}
 			else
 			{

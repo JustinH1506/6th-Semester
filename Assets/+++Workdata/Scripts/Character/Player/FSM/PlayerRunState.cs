@@ -6,7 +6,7 @@ public class PlayerRunState : PlayerBaseState
 	
 	public override void EnterState( )
 	{
-		ctx.Anim.CrossFade(PlayerAnimationFactory.RunAnim, 0.01f);
+		ctx.Anim.Play(PlayerAnimationFactory.RunAnim);
 	}
 
 	public override void UpdateState()

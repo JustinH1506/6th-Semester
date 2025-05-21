@@ -8,8 +8,8 @@ public class EnemyAttackState : EnemyBaseState
 	private float maxWaitCounter = 2f;
 	public override void EnterState()
 	{
-		ctx.Anim.Play(EnemyAnimationFactory.Attack);
 		FaceTarget();
+		ctx.Anim.Play(EnemyAnimationFactory.Attack);
 		waitCounter = maxWaitCounter;
 		ctx.AttackCooldown = ctx.MaxAttackCooldown;
 		//ctx.CanAttack = false;
@@ -55,15 +55,11 @@ public class EnemyAttackState : EnemyBaseState
 	
 	void FaceTarget()
 	{
-		var turnTowardNavSteeringTarget = ctx.NavMeshAgent.steeringTarget;
+		var turnTowardNavSteeringTarget = ctx.PlayerTransform.position;
       
 		Vector3 direction = (turnTowardNavSteeringTarget - ctx.transform.position);
 		Vector3 lookDirection = new Vector3(direction.x, 0, direction.z);
-		lookDirection.Normalize();
-
-		if (lookDirection != Vector3.zero)
-		{
-			ctx.transform.forward = Vector3.Slerp(ctx.transform.forward, lookDirection, 500 * Time.deltaTime);
-		}
+		
+		ctx.transform.forward = Vector3.Slerp(ctx.transform.forward, lookDirection, 500 * Time.deltaTime);
 	}
 }

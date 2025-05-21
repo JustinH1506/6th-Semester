@@ -315,6 +315,34 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""TargetLock"",
+            ""id"": ""ed8fe061-edd6-4f80-9f85-d0e49a908bca"",
+            ""actions"": [
+                {
+                    ""name"": ""Lock"",
+                    ""type"": ""Button"",
+                    ""id"": ""bd458e6c-ab05-4fe1-933a-8e62f51d9e56"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""596f4591-0f46-46d1-9489-f94b25d89350"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Lock"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -326,11 +354,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Dodge = m_Player.FindAction("Dodge", throwIfNotFound: true);
+        // TargetLock
+        m_TargetLock = asset.FindActionMap("TargetLock", throwIfNotFound: true);
+        m_TargetLock_Lock = m_TargetLock.FindAction("Lock", throwIfNotFound: true);
     }
 
     ~@PlayerInput()
     {
         UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, PlayerInput.Player.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_TargetLock.enabled, "This will cause a leak and performance issues, PlayerInput.TargetLock.Disable() has not been called.");
     }
 
     /// <summary>
@@ -542,6 +574,102 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="PlayerActions" /> instance referencing this action map.
     /// </summary>
     public PlayerActions @Player => new PlayerActions(this);
+
+    // TargetLock
+    private readonly InputActionMap m_TargetLock;
+    private List<ITargetLockActions> m_TargetLockActionsCallbackInterfaces = new List<ITargetLockActions>();
+    private readonly InputAction m_TargetLock_Lock;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "TargetLock".
+    /// </summary>
+    public struct TargetLockActions
+    {
+        private @PlayerInput m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public TargetLockActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "TargetLock/Lock".
+        /// </summary>
+        public InputAction @Lock => m_Wrapper.m_TargetLock_Lock;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_TargetLock; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="TargetLockActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(TargetLockActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="TargetLockActions" />
+        public void AddCallbacks(ITargetLockActions instance)
+        {
+            if (instance == null || m_Wrapper.m_TargetLockActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_TargetLockActionsCallbackInterfaces.Add(instance);
+            @Lock.started += instance.OnLock;
+            @Lock.performed += instance.OnLock;
+            @Lock.canceled += instance.OnLock;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="TargetLockActions" />
+        private void UnregisterCallbacks(ITargetLockActions instance)
+        {
+            @Lock.started -= instance.OnLock;
+            @Lock.performed -= instance.OnLock;
+            @Lock.canceled -= instance.OnLock;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="TargetLockActions.UnregisterCallbacks(ITargetLockActions)" />.
+        /// </summary>
+        /// <seealso cref="TargetLockActions.UnregisterCallbacks(ITargetLockActions)" />
+        public void RemoveCallbacks(ITargetLockActions instance)
+        {
+            if (m_Wrapper.m_TargetLockActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="TargetLockActions.AddCallbacks(ITargetLockActions)" />
+        /// <seealso cref="TargetLockActions.RemoveCallbacks(ITargetLockActions)" />
+        /// <seealso cref="TargetLockActions.UnregisterCallbacks(ITargetLockActions)" />
+        public void SetCallbacks(ITargetLockActions instance)
+        {
+            foreach (var item in m_Wrapper.m_TargetLockActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_TargetLockActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="TargetLockActions" /> instance referencing this action map.
+    /// </summary>
+    public TargetLockActions @TargetLock => new TargetLockActions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Player" which allows adding and removing callbacks.
     /// </summary>
@@ -584,5 +712,20 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnDodge(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "TargetLock" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="TargetLockActions.AddCallbacks(ITargetLockActions)" />
+    /// <seealso cref="TargetLockActions.RemoveCallbacks(ITargetLockActions)" />
+    public interface ITargetLockActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Lock" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLock(InputAction.CallbackContext context);
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInputManager : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class PlayerInputManager : MonoBehaviour
 
 	private PlayerInput playerInput;
 	private PlayerStateMachine playerStateMachine;
+	private TargetLock targetLock;
 	
 	#endregion
 
@@ -20,6 +22,7 @@ public class PlayerInputManager : MonoBehaviour
 	{
 		playerInput = new PlayerInput();
 		playerStateMachine = GetComponent<PlayerStateMachine>();
+		targetLock = GetComponent<TargetLock>();
 	}
 
 	/// <summary>
@@ -37,7 +40,7 @@ public class PlayerInputManager : MonoBehaviour
 
 		playerInput.Player.Attack.performed += playerStateMachine.Attack;
 
-		playerInput.Player.Dodge.performed += playerStateMachine.Dodge;
+		playerInput.TargetLock.Lock.performed += targetLock.AssignTarget;
 	}
 
 	/// <summary>

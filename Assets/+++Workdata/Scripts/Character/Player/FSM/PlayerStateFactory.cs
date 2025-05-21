@@ -55,10 +55,5 @@ public class PlayerStateFactory
         return new PlayerStunState(context, this);
     }
     
-    public PlayerBaseState Heal()
-    {
-        return new PlayerStunState(context, this);
-    }
-    
     #endregion
 }
