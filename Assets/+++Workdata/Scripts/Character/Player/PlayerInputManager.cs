@@ -39,6 +39,8 @@ public class PlayerInputManager : MonoBehaviour
 		playerInput.Player.Sprint.canceled += playerStateMachine.Sprint;
 
 		playerInput.Player.Attack.performed += playerStateMachine.Attack;
+		
+		playerInput.Player.Dodge.performed += playerStateMachine.Dodge;
 
 		playerInput.TargetLock.Lock.performed += targetLock.AssignTarget;
 	}
@@ -59,6 +61,9 @@ public class PlayerInputManager : MonoBehaviour
 		playerInput.Player.Attack.performed -= playerStateMachine.Attack;
 		
 		playerInput.Player.Dodge.performed -= playerStateMachine.Dodge;
+		
+		playerInput.TargetLock.Lock.performed -= targetLock.AssignTarget;
+
 	}
 	
 	#endregion

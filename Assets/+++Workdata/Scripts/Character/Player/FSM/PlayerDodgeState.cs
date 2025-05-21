@@ -7,7 +7,7 @@ public class PlayerDodgeState : PlayerBaseState
 	
 	public override void EnterState()
 	{
-		ctx.Anim.CrossFade(PlayerAnimationFactory.DodgeAnim, 0.01f);
+		ctx.Anim.Play(PlayerAnimationFactory.DodgeAnim);
 		ctx.HandleDodge();
 	}
 
