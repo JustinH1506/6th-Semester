@@ -8,7 +8,6 @@ public class PlayerAttackThirdState : PlayerBaseState
 	{
 		ctx.Anim.Play(PlayerAnimationFactory.AttackAnim03);
 		ctx.AttackMovement(12);
-
 	}
 
 	public override void UpdateState()

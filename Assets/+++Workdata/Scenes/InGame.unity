@@ -1767,7 +1767,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 542274187}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.13165647, y: 0.000000024802814, z: -0.000000003061918, w: 0.9912954}
+  m_LocalRotation: {x: 0.13165644, y: 0.000000037588418, z: -0.0000000043594803, w: 0.9912954}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3748,7 +3748,7 @@ GameObject:
   - component: {fileID: 1233155899}
   - component: {fileID: 1233155898}
   m_Layer: 0
-  m_Name: Weapon_R
+  m_Name: Real Weapon_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4996,7 +4996,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1472416088}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.11509341, y: -0.000000013159022, z: 5.6999e-10, w: 0.9933547}
+  m_LocalRotation: {x: 0.11509342, y: 0.000000002962868, z: -7.947369e-10, w: 0.9933547}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5995,7 +5995,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1825986479}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.121537454, y: 0.000000048005557, z: -0.000000004921882, w: 0.99258685}
+  m_LocalRotation: {x: 0.12153746, y: 0.000000028848731, z: -0.000000003174964, w: 0.99258685}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

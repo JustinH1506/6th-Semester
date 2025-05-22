@@ -30,7 +30,7 @@ public class PlayerAttackSecondState : PlayerBaseState
 
 	public override void CheckSwitchStates()
 	{
-		if (ctx.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
+		if (ctx.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f)
 		{
 			return;
 		}

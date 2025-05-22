@@ -222,18 +222,6 @@ public class EnemyStateMachine : CharacterBase, IDataPersistence
 
 		return false;
 	}
-
-	public void HandleAttackCooldown()
-	{
-		if (attackCooldown > 0.05f && !canAttack)
-		{
-			attackCooldown -= Time.deltaTime;
-		}
-		else
-		{
-			CanAttack = true;
-		}
-	}
 	
 	#endregion
 }
