@@ -7,6 +7,8 @@ public class PlayerAttackThirdState : PlayerBaseState
 	public override void EnterState()
 	{
 		ctx.Anim.Play(PlayerAnimationFactory.AttackAnim03);
+		ctx.AttackMovement(12);
+
 	}
 
 	public override void UpdateState()
@@ -29,7 +31,7 @@ public class PlayerAttackThirdState : PlayerBaseState
 
 	public override void CheckSwitchStates()
 	{
-		if (ctx.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
+		if (ctx.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f)
 		{
 			return;
 		}

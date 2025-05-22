@@ -429,6 +429,11 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 	    currentState.ChangeAttackAnimation();
     }
     
+    public void AttackMovement(float forwardMovement)
+    {
+	    rb.AddForce(transform.forward * forwardMovement, ForceMode.VelocityChange);
+    }
+    
     #endregion
 
     #region Save Methods

@@ -7,6 +7,7 @@ public class PlayerAttackSecondState : PlayerBaseState
 	public override void EnterState()
 	{
 		ctx.Anim.Play(PlayerAnimationFactory.AttackAnim02);
+		ctx.AttackMovement(12);
 	}
 
 	public override void UpdateState()

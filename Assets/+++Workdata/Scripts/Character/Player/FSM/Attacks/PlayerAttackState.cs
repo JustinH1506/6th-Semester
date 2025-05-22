@@ -1,5 +1,4 @@
-using NUnit.Framework.Internal.Execution;
-using UnityEngine;
+
 
 public class PlayerAttackState : PlayerBaseState
 {
@@ -7,7 +6,8 @@ public class PlayerAttackState : PlayerBaseState
 	
 	public override void EnterState()
 	{
-		ctx.Anim.CrossFade(PlayerAnimationFactory.AttackAnim01, 0.01f);
+		ctx.Anim.Play(PlayerAnimationFactory.AttackAnim01);
+		ctx.AttackMovement(12);
 	}
 
 	public override void UpdateState()
