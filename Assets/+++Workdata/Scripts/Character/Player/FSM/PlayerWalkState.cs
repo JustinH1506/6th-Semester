@@ -51,6 +51,12 @@ public class PlayerWalkState : PlayerBaseState
 			SwitchStates(factory.Run());
 		}
 	}
+	
+	public override void ChangeAttackAnimation()
+	{
+		
+	}
+	
 	public override void InitializeSubStates(){}
 	
 	#endregion

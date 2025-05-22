@@ -31,6 +31,8 @@ public abstract class PlayerBaseState
         
         ctx.CurrentState = newState;
     }
+
+    public abstract void ChangeAttackAnimation();
     
     protected void SetSuperState(){}
     protected void SetSubState(){}

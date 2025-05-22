@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: fe5738f962d7fe54492d0124d00c660d, type: 2}
+  m_LightingDataAsset: {fileID: 0}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 81f5acb3e38c187429afec9202179044, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -702,33 +702,33 @@ MonoBehaviour:
     m_Aspect: 0
   m_HasValidSHForNormalization: 0
   m_SHForNormalization:
-    'sh[ 0]': 0.6180124
-    'sh[ 1]': 0.45064637
-    'sh[ 2]': -0.0027955172
-    'sh[ 3]': -0.0039220094
-    'sh[ 4]': -0.0008625426
-    'sh[ 5]': -0.00087526225
-    'sh[ 6]': -0.0056883898
-    'sh[ 7]': 0.0009507767
-    'sh[ 8]': -0.01715733
-    'sh[ 9]': 0.6177207
-    'sh[10]': 0.45060146
-    'sh[11]': -0.0030382639
-    'sh[12]': -0.0039644707
-    'sh[13]': -0.0008651171
-    'sh[14]': -0.00089259766
-    'sh[15]': -0.005700763
-    'sh[16]': 0.000941381
-    'sh[17]': -0.017166309
-    'sh[18]': 0.6176767
-    'sh[19]': 0.45060334
-    'sh[20]': -0.0030878093
-    'sh[21]': -0.0039701555
-    'sh[22]': -0.00086509244
-    'sh[23]': -0.0008958469
-    'sh[24]': -0.0057037417
-    'sh[25]': 0.00093877676
-    'sh[26]': -0.017168362
+    'sh[ 0]': 0
+    'sh[ 1]': 0
+    'sh[ 2]': 0
+    'sh[ 3]': 0
+    'sh[ 4]': 0
+    'sh[ 5]': 0
+    'sh[ 6]': 0
+    'sh[ 7]': 0
+    'sh[ 8]': 0
+    'sh[ 9]': 0
+    'sh[10]': 0
+    'sh[11]': 0
+    'sh[12]': 0
+    'sh[13]': 0
+    'sh[14]': 0
+    'sh[15]': 0
+    'sh[16]': 0
+    'sh[17]': 0
+    'sh[18]': 0
+    'sh[19]': 0
+    'sh[20]': 0
+    'sh[21]': 0
+    'sh[22]': 0
+    'sh[23]': 0
+    'sh[24]': 0
+    'sh[25]': 0
+    'sh[26]': 0
   m_SHValidForCapturePosition: {x: 39.134514, y: 1.8585591, z: 25.46}
   m_SHValidForSourcePosition: {x: 39.134514, y: 1.8585591, z: 25.46}
   m_HDProbeVersion: 9
@@ -876,12 +876,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 147547740}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 39.134514, y: 2.7860234, z: 25.46}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 11.018557, y: -0.30871558, z: 23.808191}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 409060850}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &199391876 stripped
 Transform:
@@ -1463,6 +1463,41 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &409060849
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 409060850}
+  m_Layer: 0
+  m_Name: Reflection Probes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &409060850
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409060849}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 28.115957, y: 3.094739, z: 1.6518078}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 147547743}
+  - {fileID: 919340756}
+  - {fileID: 2072988533}
+  - {fileID: 1666328411}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &504046606
@@ -2836,35 +2871,35 @@ MonoBehaviour:
     m_CaptureRotation: {x: 0, y: 0, z: 0, w: 0}
     m_FieldOfView: 0
     m_Aspect: 0
-  m_HasValidSHForNormalization: 1
+  m_HasValidSHForNormalization: 0
   m_SHForNormalization:
-    'sh[ 0]': 1.2876257
-    'sh[ 1]': 0.75249594
-    'sh[ 2]': -0.020788334
-    'sh[ 3]': -0.035814103
-    'sh[ 4]': 0.002028742
-    'sh[ 5]': -0.001271293
-    'sh[ 6]': -0.0020045394
-    'sh[ 7]': 0.0043251324
-    'sh[ 8]': -0.00053719373
-    'sh[ 9]': 1.2908962
-    'sh[10]': 0.7515389
-    'sh[11]': -0.021435069
-    'sh[12]': -0.039134257
-    'sh[13]': 0.0024274203
-    'sh[14]': -0.001194969
-    'sh[15]': -0.0021207174
-    'sh[16]': 0.0045890743
-    'sh[17]': -0.00022504295
-    'sh[18]': 1.3005463
-    'sh[19]': 0.7487554
-    'sh[20]': -0.023288054
-    'sh[21]': -0.048765782
-    'sh[22]': 0.0035945377
-    'sh[23]': -0.0009692945
-    'sh[24]': -0.0024595931
-    'sh[25]': 0.0053644893
-    'sh[26]': 0.0006945877
+    'sh[ 0]': 0
+    'sh[ 1]': 0
+    'sh[ 2]': 0
+    'sh[ 3]': 0
+    'sh[ 4]': 0
+    'sh[ 5]': 0
+    'sh[ 6]': 0
+    'sh[ 7]': 0
+    'sh[ 8]': 0
+    'sh[ 9]': 0
+    'sh[10]': 0
+    'sh[11]': 0
+    'sh[12]': 0
+    'sh[13]': 0
+    'sh[14]': 0
+    'sh[15]': 0
+    'sh[16]': 0
+    'sh[17]': 0
+    'sh[18]': 0
+    'sh[19]': 0
+    'sh[20]': 0
+    'sh[21]': 0
+    'sh[22]': 0
+    'sh[23]': 0
+    'sh[24]': 0
+    'sh[25]': 0
+    'sh[26]': 0
   m_SHValidForCapturePosition: {x: 39.134514, y: 2.7860234, z: -24.29}
   m_SHValidForSourcePosition: {x: 39.134514, y: 2.7860234, z: -24.29}
   m_HDProbeVersion: 9
@@ -3012,12 +3047,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919340753}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 39.134514, y: 2.7860234, z: -24.29}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 11.018557, y: -0.30871558, z: -25.941809}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 409060850}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &937743293
 PrefabInstance:
@@ -3398,7 +3433,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 2
   m_AreaSize: {x: 0.5, y: 0.5}
   m_BounceIntensity: 0
@@ -3422,7 +3457,7 @@ Transform:
   m_GameObject: {fileID: 1177465482}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 49.22, y: 27.16, z: -0.01}
+  m_LocalPosition: {x: 62.45, y: 36.3, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3454,15 +3489,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 416473660520305387, guid: 6af03b89d96666c43bc7cfe556940099, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.033643555
+      value: -0.033643562
       objectReference: {fileID: 0}
     - target: {fileID: 416473660520305387, guid: 6af03b89d96666c43bc7cfe556940099, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.00000009188868
+      value: 0.000000058961156
       objectReference: {fileID: 0}
     - target: {fileID: 416473660520305387, guid: 6af03b89d96666c43bc7cfe556940099, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000016480619
+      value: -0.000000004299101
       objectReference: {fileID: 0}
     - target: {fileID: 596957263394344930, guid: 6af03b89d96666c43bc7cfe556940099, type: 3}
       propertyPath: m_TrackedObjectOffset.y
@@ -3582,15 +3617,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2911926379770852396, guid: 6af03b89d96666c43bc7cfe556940099, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.027156914
+      value: -0.027156895
       objectReference: {fileID: 0}
     - target: {fileID: 2911926379770852396, guid: 6af03b89d96666c43bc7cfe556940099, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.0000000665496
+      value: 0.00000006635163
       objectReference: {fileID: 0}
     - target: {fileID: 2911926379770852396, guid: 6af03b89d96666c43bc7cfe556940099, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000050295137
+      value: -0.0000000065030856
       objectReference: {fileID: 0}
     - target: {fileID: 3267100212634994610, guid: 6af03b89d96666c43bc7cfe556940099, type: 3}
       propertyPath: m_BindingMode
@@ -4289,7 +4324,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 2
   m_AreaSize: {x: 0.5, y: 0.5}
   m_BounceIntensity: 0
@@ -4313,7 +4348,7 @@ Transform:
   m_GameObject: {fileID: 1503967213}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 16.66, y: 27.16, z: -0.01}
+  m_LocalPosition: {x: 29.89, y: 36.2, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4668,35 +4703,35 @@ MonoBehaviour:
     m_CaptureRotation: {x: 0, y: 0, z: 0, w: 0}
     m_FieldOfView: 0
     m_Aspect: 0
-  m_HasValidSHForNormalization: 1
+  m_HasValidSHForNormalization: 0
   m_SHForNormalization:
-    'sh[ 0]': 0.32566544
-    'sh[ 1]': 0.14815615
-    'sh[ 2]': -0.0062683127
-    'sh[ 3]': -0.2197618
-    'sh[ 4]': -0.02847656
-    'sh[ 5]': 0.0001712686
-    'sh[ 6]': -0.0062356624
-    'sh[ 7]': 0.002713242
-    'sh[ 8]': 0.0063952743
-    'sh[ 9]': 0.328049
-    'sh[10]': 0.1471658
-    'sh[11]': -0.007122769
-    'sh[12]': -0.22356808
-    'sh[13]': -0.028079398
-    'sh[14]': 0.00025661063
-    'sh[15]': -0.006362082
-    'sh[16]': 0.0029505587
-    'sh[17]': 0.0066442546
-    'sh[18]': 0.33745033
-    'sh[19]': 0.14436051
-    'sh[20]': -0.009018844
-    'sh[21]': -0.23332453
-    'sh[22]': -0.026914032
-    'sh[23]': 0.00048376963
-    'sh[24]': -0.006704439
-    'sh[25]': 0.0037186136
-    'sh[26]': 0.0075490056
+    'sh[ 0]': 0
+    'sh[ 1]': 0
+    'sh[ 2]': 0
+    'sh[ 3]': 0
+    'sh[ 4]': 0
+    'sh[ 5]': 0
+    'sh[ 6]': 0
+    'sh[ 7]': 0
+    'sh[ 8]': 0
+    'sh[ 9]': 0
+    'sh[10]': 0
+    'sh[11]': 0
+    'sh[12]': 0
+    'sh[13]': 0
+    'sh[14]': 0
+    'sh[15]': 0
+    'sh[16]': 0
+    'sh[17]': 0
+    'sh[18]': 0
+    'sh[19]': 0
+    'sh[20]': 0
+    'sh[21]': 0
+    'sh[22]': 0
+    'sh[23]': 0
+    'sh[24]': 0
+    'sh[25]': 0
+    'sh[26]': 0
   m_SHValidForCapturePosition: {x: 72.93, y: 2.1923156, z: 25.46}
   m_SHValidForSourcePosition: {x: 72.93, y: 2.1923156, z: 25.46}
   m_HDProbeVersion: 9
@@ -4844,12 +4879,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1666328408}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 72.93, y: 2.1923156, z: 25.46}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 44.81404, y: -0.9024234, z: 23.808191}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 409060850}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!115 &1673183342
 MonoScript:
@@ -5638,35 +5673,35 @@ MonoBehaviour:
     m_CaptureRotation: {x: 0, y: 0, z: 0, w: 0}
     m_FieldOfView: 0
     m_Aspect: 0
-  m_HasValidSHForNormalization: 1
+  m_HasValidSHForNormalization: 0
   m_SHForNormalization:
-    'sh[ 0]': 0.5082842
-    'sh[ 1]': 0.31968662
-    'sh[ 2]': -0.17950998
-    'sh[ 3]': -0.009128039
-    'sh[ 4]': 0.0064296694
-    'sh[ 5]': -0.029117467
-    'sh[ 6]': -0.0029044552
-    'sh[ 7]': 0.0012117442
-    'sh[ 8]': -0.011247807
-    'sh[ 9]': 0.5115728
-    'sh[10]': 0.31872934
-    'sh[11]': -0.18014903
-    'sh[12]': -0.012436626
-    'sh[13]': 0.00682824
-    'sh[14]': -0.029040512
-    'sh[15]': -0.0030199557
-    'sh[16]': 0.0014754203
-    'sh[17]': -0.0109342355
-    'sh[18]': 0.52121705
-    'sh[19]': 0.31593418
-    'sh[20]': -0.18199986
-    'sh[21]': -0.02206612
-    'sh[22]': 0.007994274
-    'sh[23]': -0.028816335
-    'sh[24]': -0.003357967
-    'sh[25]': 0.0022502248
-    'sh[26]': -0.010013665
+    'sh[ 0]': 0
+    'sh[ 1]': 0
+    'sh[ 2]': 0
+    'sh[ 3]': 0
+    'sh[ 4]': 0
+    'sh[ 5]': 0
+    'sh[ 6]': 0
+    'sh[ 7]': 0
+    'sh[ 8]': 0
+    'sh[ 9]': 0
+    'sh[10]': 0
+    'sh[11]': 0
+    'sh[12]': 0
+    'sh[13]': 0
+    'sh[14]': 0
+    'sh[15]': 0
+    'sh[16]': 0
+    'sh[17]': 0
+    'sh[18]': 0
+    'sh[19]': 0
+    'sh[20]': 0
+    'sh[21]': 0
+    'sh[22]': 0
+    'sh[23]': 0
+    'sh[24]': 0
+    'sh[25]': 0
+    'sh[26]': 0
   m_SHValidForCapturePosition: {x: 8.21, y: 1.8585591, z: 26.67}
   m_SHValidForSourcePosition: {x: 8.21, y: 1.8585591, z: 26.67}
   m_HDProbeVersion: 9
@@ -5814,12 +5849,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2072988530}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.21, y: 1.8585591, z: 26.67}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -19.905956, y: -1.2361798, z: 25.018192}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 409060850}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -5845,7 +5880,4 @@ SceneRoots:
   - {fileID: 1228485083}
   - {fileID: 703466645}
   - {fileID: 1513576665}
-  - {fileID: 147547743}
-  - {fileID: 919340756}
-  - {fileID: 2072988533}
-  - {fileID: 1666328411}
+  - {fileID: 409060850}

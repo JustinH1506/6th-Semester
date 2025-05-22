@@ -55,5 +55,11 @@ public class PlayerRunState : PlayerBaseState
 			SwitchStates(factory.Idle());
 		}
 	}
+	
+	public override void ChangeAttackAnimation()
+	{
+		
+	}
+	
 	public override void InitializeSubStates(){}
 }

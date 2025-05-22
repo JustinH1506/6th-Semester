@@ -36,11 +36,7 @@ public class PlayerAttackSecondState : PlayerBaseState
 		
 		ctx.IsAttacking = false;
 
-		if (ctx.AttackAmount >= 1)
-		{
-			SwitchStates(factory.AttackThird());
-		}
-		else if (ctx.IsMoving && ctx.IsSprinting)
+		if (ctx.IsMoving && ctx.IsSprinting)
 		{
 			SwitchStates(factory.Run());
 		}
@@ -53,5 +49,14 @@ public class PlayerAttackSecondState : PlayerBaseState
 			SwitchStates(factory.Idle());
 		}
 	}
+	
+	public override void ChangeAttackAnimation()
+	{
+		if (ctx.AttackAmount >= 1)
+		{
+			SwitchStates(factory.AttackThird());
+		}
+	}
+	
 	public override void InitializeSubStates(){}
 }

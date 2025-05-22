@@ -424,6 +424,11 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 	    }
     }
     
+    public void CheckRecoveryPoint()
+    {
+	    currentState.ChangeAttackAnimation();
+    }
+    
     #endregion
 
     #region Save Methods

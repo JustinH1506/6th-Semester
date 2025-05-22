@@ -29,5 +29,11 @@ public class PlayerHealState : PlayerBaseState
 	{
 		
 	}
+	
+	public override void ChangeAttackAnimation()
+	{
+		
+	}
+	
 	public override void InitializeSubStates(){}
 }
