@@ -52,7 +52,7 @@ public class PlayerAttackState : PlayerBaseState
 	
 	public override void ChangeAttackAnimation()
 	{
-		if (ctx.AttackAmount >= 1)
+		if (ctx.AttackAmount > 1)
 		{
 			SwitchStates(factory.AttackSecond());
 		}
