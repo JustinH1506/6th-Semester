@@ -274,11 +274,11 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 	    
 	    if (cameraRelativeMovement != Vector3.zero && !targetLock.isTargeting)
 	    {
-		    dodgeDirection = new Vector3(cameraRelativeMovement.x * dodgePower * 2f, rb.linearVelocity.y, cameraRelativeMovement.z * dodgePower);
+		    dodgeDirection = new Vector3(cameraRelativeMovement.x * dodgePower * 2f, rb.linearVelocity.y, cameraRelativeMovement.z * dodgePower * 2f);
 	    }
 	    else if (cameraRelativeMovement != Vector3.zero && targetLock.isTargeting)
 	    {
-		    dodgeDirection = new Vector3(cameraRelativeMovement.x * dodgePower * 2f, rb.linearVelocity.y, cameraRelativeMovement.z * dodgePower);
+		    dodgeDirection = new Vector3(cameraRelativeMovement.x * dodgePower * 2f, rb.linearVelocity.y, cameraRelativeMovement.z * dodgePower * 2f);
 		    anim.SetFloat("X", inputX, 0.1f, Time.deltaTime);
 		    anim.SetFloat("Y", inputZ, 0.1f, Time.deltaTime);
 	    }
@@ -429,6 +429,11 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
     public void ChangeTurnState()
     {
 	    canTurn = !canTurn;
+    }
+    
+    public void ChangeDodgeState()
+    {
+	    IsDodging = !IsDodging;
     }
 
     /// <summary>

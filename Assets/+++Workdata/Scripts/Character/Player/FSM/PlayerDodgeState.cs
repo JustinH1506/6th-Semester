@@ -29,7 +29,7 @@ public class PlayerDodgeState : PlayerBaseState
 
 	public override void ExitState()
 	{
-		
+		ctx.IsDodging = false;
 	}
 
 	public override void CheckSwitchStates()
@@ -38,8 +38,6 @@ public class PlayerDodgeState : PlayerBaseState
 		{
 			return;
 		}
-
-		ctx.IsDodging = false;
 		
 		if (ctx.IsMoving && ctx.IsSprinting)
 		{

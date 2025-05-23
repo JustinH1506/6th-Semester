@@ -8,11 +8,11 @@ public class PlayerRunState : PlayerBaseState
 	{
 		if (ctx.targetLock.isTargeting)
 		{
-			ctx.Anim.Play(PlayerAnimationFactory.LockedRunMovement);
+			ctx.Anim.CrossFade(PlayerAnimationFactory.LockedRunMovement, 0.1f);
 		}
 		else
 		{
-			ctx.Anim.Play(PlayerAnimationFactory.RunAnim);
+			ctx.Anim.CrossFade(PlayerAnimationFactory.RunAnim, 0.1f);
 		}
 	}
 

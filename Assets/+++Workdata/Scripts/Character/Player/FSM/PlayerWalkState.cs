@@ -13,12 +13,11 @@ public class PlayerWalkState : PlayerBaseState
 	{
 		if (ctx.targetLock.isTargeting)
 		{
-			ctx.Anim.Play(PlayerAnimationFactory.LockedWalkMovement);
-
+			ctx.Anim.CrossFade(PlayerAnimationFactory.LockedWalkMovement, 0.1f);
 		}
 		else
 		{
-			ctx.Anim.Play(PlayerAnimationFactory.WalkAnim);
+			ctx.Anim.CrossFade(PlayerAnimationFactory.WalkAnim, 0.1f);
 		}
 	}
 
