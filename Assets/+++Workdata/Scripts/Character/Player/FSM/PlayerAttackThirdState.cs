@@ -6,6 +6,7 @@ public class PlayerAttackThirdState : PlayerBaseState
 	
 	public override void EnterState()
 	{
+		ctx.CanTurn = false;
 		ctx.Anim.Play(PlayerAnimationFactory.AttackAnim03);
 		ctx.AttackMovement(12);
 	}

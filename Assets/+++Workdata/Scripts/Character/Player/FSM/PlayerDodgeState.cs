@@ -6,7 +6,14 @@ public class PlayerDodgeState : PlayerBaseState
 	
 	public override void EnterState()
 	{
-		ctx.Anim.Play(PlayerAnimationFactory.DodgeAnim);
+		if (ctx.targetLock.isTargeting)
+		{
+			ctx.Anim.Play(PlayerAnimationFactory.LockedDodgeMovement);
+		}
+		else
+		{
+			ctx.Anim.Play(PlayerAnimationFactory.DodgeAnim);
+		}
 		ctx.HandleDodge();
 	}
 

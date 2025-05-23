@@ -251,6 +251,11 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
     /// <param name="rotateSpeed"></param>
     public void HandleRotation(Vector3 cameraRelativeMovement, float rotateSpeed)
     {
+	    if (!canTurn)
+	    {
+		    return;
+	    }
+	    
 	    if (HandleCameraRelative() != Vector3.zero && !targetLock.isTargeting)
 	    {
 		    transform.forward = Vector3.Slerp(transform.forward, cameraRelativeMovement.normalized, Time.deltaTime * rotateSpeed);
@@ -267,9 +272,15 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 
 	    Vector3 dodgeDirection; 
 	    
-	    if (cameraRelativeMovement != Vector3.zero)
+	    if (cameraRelativeMovement != Vector3.zero && !targetLock.isTargeting)
 	    {
-		    dodgeDirection = new Vector3(cameraRelativeMovement.x * dodgePower * 1.5f, rb.linearVelocity.y, cameraRelativeMovement.z * dodgePower);
+		    dodgeDirection = new Vector3(cameraRelativeMovement.x * dodgePower * 2f, rb.linearVelocity.y, cameraRelativeMovement.z * dodgePower);
+	    }
+	    else if (cameraRelativeMovement != Vector3.zero && targetLock.isTargeting)
+	    {
+		    dodgeDirection = new Vector3(cameraRelativeMovement.x * dodgePower * 2f, rb.linearVelocity.y, cameraRelativeMovement.z * dodgePower);
+		    anim.SetFloat("X", inputX, 0.1f, Time.deltaTime);
+		    anim.SetFloat("Y", inputZ, 0.1f, Time.deltaTime);
 	    }
 	    else
 	    {
