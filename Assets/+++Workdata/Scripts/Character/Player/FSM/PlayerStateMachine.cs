@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,6 +14,7 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
     
     private PlayerBaseState currentState;
     private PlayerStateFactory states;
+    public TargetLock targetLock;
     
     public PlayerBaseState CurrentState { get => currentState;
 	    set => currentState = value;
@@ -152,11 +152,12 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
     protected override void Awake()
     {
 	    base.Awake();
+	    targetLock = GetComponent<TargetLock>();
 	    states = new PlayerStateFactory(this);
 	    anim  = GetComponent<Animator>();
+	    rb = GetComponent<Rigidbody>();
 	    currentState = states.Idle();
 	    currentState.EnterState();
-	    rb = GetComponent<Rigidbody>();
 	    currentStamina = maxStamina;
     }
 
@@ -233,7 +234,13 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
 	    HandleRotation(cameraRelativeMovement, rotationSpeed);
 
 	    Vector3 movement = new Vector3(cameraRelativeMovement.x * moveSpeed, rb.linearVelocity.y, cameraRelativeMovement.z * moveSpeed);
-		
+
+	    if (targetLock.isTargeting)
+	    {
+		    anim.SetFloat("X", inputX, 0.1f, Time.deltaTime);
+		    anim.SetFloat("Y", inputZ, 0.1f, Time.deltaTime);
+	    }
+	    
 	    rb.linearVelocity = movement;
     }
 
@@ -244,9 +251,13 @@ public class PlayerStateMachine : CharacterBase, IDataPersistence
     /// <param name="rotateSpeed"></param>
     public void HandleRotation(Vector3 cameraRelativeMovement, float rotateSpeed)
     {
-	    if (HandleCameraRelative() != Vector3.zero)
+	    if (HandleCameraRelative() != Vector3.zero && !targetLock.isTargeting)
 	    {
 		    transform.forward = Vector3.Slerp(transform.forward, cameraRelativeMovement.normalized, Time.deltaTime * rotateSpeed);
+	    }
+	    else if(targetLock.currentTarget != null)
+	    {
+		    transform.LookAt(new Vector3(targetLock.currentTarget.position.x, 0, targetLock.currentTarget.position.z));
 	    }
     }
     

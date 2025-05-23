@@ -3,7 +3,6 @@ using UnityEngine;
 public class PlayerDodgeState : PlayerBaseState
 {
 	public PlayerDodgeState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) :base(currentContext, playerStateFactory){}
-
 	
 	public override void EnterState()
 	{

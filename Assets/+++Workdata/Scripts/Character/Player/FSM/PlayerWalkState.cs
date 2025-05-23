@@ -11,7 +11,15 @@ public class PlayerWalkState : PlayerBaseState
 	#region My Methods
 	public override void EnterState( )
 	{
-		ctx.Anim.Play(PlayerAnimationFactory.WalkAnim);
+		if (ctx.targetLock.isTargeting)
+		{
+			ctx.Anim.Play(PlayerAnimationFactory.LockedWalkMovement);
+
+		}
+		else
+		{
+			ctx.Anim.Play(PlayerAnimationFactory.WalkAnim);
+		}
 	}
 
 	public override void UpdateState()

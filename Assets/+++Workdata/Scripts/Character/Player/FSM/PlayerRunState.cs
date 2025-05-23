@@ -6,7 +6,14 @@ public class PlayerRunState : PlayerBaseState
 	
 	public override void EnterState( )
 	{
-		ctx.Anim.Play(PlayerAnimationFactory.RunAnim);
+		if (ctx.targetLock.isTargeting)
+		{
+			ctx.Anim.Play(PlayerAnimationFactory.LockedRunMovement);
+		}
+		else
+		{
+			ctx.Anim.Play(PlayerAnimationFactory.RunAnim);
+		}
 	}
 
 	public override void UpdateState()

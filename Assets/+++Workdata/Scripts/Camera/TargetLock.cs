@@ -23,9 +23,9 @@ public class TargetLock : MonoBehaviour
     [SerializeField] private float maxDistance;
     
     public bool isTargeting;
+    public Transform currentTarget;
     
     private float maxAngle;
-    private Transform currentTarget;
     private float mouseX;
     private float mouseY;
 

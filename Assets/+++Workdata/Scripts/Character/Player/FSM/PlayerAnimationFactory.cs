@@ -10,4 +10,6 @@ public class PlayerAnimationFactory
 	public const string DodgeAnim = "DodgeRoll";
 	public const string HitAnim = "Hit";
 	public const string IdleAnim = "Standing Idle";
+	public const string LockedWalkMovement = "Walk Movement";
+	public const string LockedRunMovement = "Run Movement";
 }
